@@ -18,6 +18,8 @@ const TRUE_MAX_SPEED = 500
 
 #@onready var sprite = get_node("NewPiskel-1_png")
 #@onready var shooter = get_node("Shooter")
+@onready var bullet_beta = preload("res://scenes/bullet_beta.tscn")
+@onready var main = get_tree().get_root()
 
 var landed = false
 var double_jump = true
@@ -35,6 +37,14 @@ enum SpinTypes{
 var spin_type  = SpinTypes.POINT
 
 
+
+func shoot(direction):
+	var bullet = bullet_beta.instantiate()
+	bullet.shot_angle = rotation
+	bullet.facing_scale = direction
+	bullet.spawn_position = global_position + Vector2(10 * direction, -2).rotated(rotation)
+	get_parent().add_child(bullet)
+	
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -63,7 +73,7 @@ func _physics_process(delta):
 						if facingRight:
 							rotate(JUMPSPIN_SPEED * delta)
 						else:
-							rotate(JUMPSPIN_SPEED * delta)
+							rotate(-JUMPSPIN_SPEED * delta)
 						
 	var direction = Input.get_axis("move_left", "move_right")
 	
@@ -152,8 +162,10 @@ func _physics_process(delta):
 	if shots > 0 and Input.is_action_just_pressed("Click"):
 		if facingRight:
 			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
+			shoot(1)
 		else:
 			velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)
+			shoot(-1)
 		shots -= 1
 
 	# Get the input direction and handle the movement/deceleration.
