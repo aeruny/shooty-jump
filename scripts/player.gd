@@ -9,6 +9,7 @@ const JUMP_VELOCITY = -300.0
 func _physics_process(delta: float) -> void:
 	
 	print("hi")
+	print("yo mama")
 	
 	# Add the gravity.
 	if not is_on_floor():
