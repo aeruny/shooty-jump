@@ -10,14 +10,16 @@ const DJUMP_VELOCITY = -200.0
 const MAX_FALL = 350
 const MINSPEED = 10
 
-@onready var sprite = get_node("NewPiskel-1_png")
-@onready var shooter = get_node("Shooter")
+#@onready var sprite = get_node("NewPiskel-1_png")
+#@onready var shooter = get_node("Shooter")
 
 var landed = false
 var double_jump = true
 var ground_jump = false
 var coyotee_time = 0
 var effective_fall = MAX_FALL
+var facingRight = true
+var shots = 3
 
 enum SpinTypes{
 	POINT = 0,
@@ -26,9 +28,7 @@ enum SpinTypes{
 
 var spin_type  = SpinTypes.POINT
 
-var spin_direction = 0
 
-var shots = 3
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -49,9 +49,14 @@ func _physics_process(delta):
 			if not landed:
 				match spin_type:
 					SpinTypes.POINT:
-						rotate(0.025 * PI * spin_direction)
+						rotate((get_local_mouse_position()).angle())
+						if not facingRight:
+							rotate(-PI)
 					SpinTypes.SPIN:
-						rotate(0.025 * PI * spin_direction)
+						if facingRight:
+							rotate(0.025 * PI )
+						else:
+							rotate(-0.025 * PI )
 						
 		
 	if is_on_floor():
@@ -62,6 +67,18 @@ func _physics_process(delta):
 		rotation = 0
 		
 		var direction = Input.get_axis("ui_left", "ui_right")
+		
+					
+		if Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_left"):
+			facingRight = true
+			#sprite.flip(direction)
+			#shooter.flip(direction)
+			
+		elif Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
+			facingRight = false
+			#sprite.flip(direction)
+			#shooter.flip(direction)
+		
 		if direction:
 			
 			if direction == velocity.sign().x:
@@ -71,12 +88,11 @@ func _physics_process(delta):
 					velocity.x = TOPSPEED * velocity.sign().x
 			else:
 				velocity.x += direction * TURNINGSPEED * delta
-				sprite.flip(direction)
-				shooter.flip(direction)
+				
+
 			
 			if abs(velocity.x) < MINSPEED:
 				velocity.x = 0
-				spin_direction = 0
 			
 			
 		else:
@@ -84,7 +100,6 @@ func _physics_process(delta):
 			
 			if abs(velocity.x) < MINSPEED:
 				velocity.x = 0
-				spin_direction = 0
 	
 	else:
 		var direction = Input.get_axis("ui_left", "ui_right")
@@ -97,11 +112,12 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept"):
 		if ground_jump:
+			spin_type = SpinTypes.POINT
 			velocity.y = JUMP_VELOCITY
 			ground_jump = false
 			landed = false
-			spin_direction = velocity.sign().x
 		elif double_jump:
+			spin_type = SpinTypes.SPIN
 			velocity.y = DJUMP_VELOCITY
 			landed = false
 			double_jump = false
