@@ -47,4 +47,3 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_h6o3q")
-script = ExtResource("1_dh7nc")
