@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dj3dhkk08o4jg"]
+
+[ext_resource type="Script" path="res://scripts/bullet_beta.gd" id="1_okhjp"]
+[ext_resource type="Texture2D" uid="uid://buaue7h8j1xyr" path="res://assets/sprites/fruit.png" id="2_7icqc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwp6f"]
+atlas = ExtResource("2_7icqc")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vukxj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwp6f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yefde"]
+radius = 5.0
+
+[node name="bullet_beta" type="AnimatableBody2D"]
+collision_layer = 3
+collision_mask = 3
+sync_to_physics = false
+script = ExtResource("1_okhjp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vukxj")
+offset = Vector2(0, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yefde")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
