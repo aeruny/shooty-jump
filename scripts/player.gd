@@ -16,6 +16,8 @@ const SHOT_VELOCITY = 200.0
 
 const TRUE_MAX_SPEED = 500
 
+signal bullet_update
+
 #@onready var sprite = get_node("NewPiskel-1_png")
 #@onready var shooter = get_node("Shooter")
 @onready var bullet_beta = preload("res://scenes/bullet_beta.tscn")
@@ -44,6 +46,7 @@ func shoot(direction):
 	bullet.facing_scale = direction
 	bullet.spawn_position = global_position + Vector2(10 * direction, -2).rotated(rotation)
 	get_parent().add_child(bullet)
+	emit_signal("bullet_update", -1)
 	
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -78,6 +81,10 @@ func _physics_process(delta):
 	var direction = Input.get_axis("move_left", "move_right")
 	
 	if is_on_floor():
+		
+		if shots < 3:
+			emit_signal("bullet_update", 3-shots)
+
 		
 		ground_jump = true
 		double_jump = true
