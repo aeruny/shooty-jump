@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://brccjvx7arvoe"]
+[gd_scene load_steps=17 format=3 uid="uid://brccjvx7arvoe"]
 
 [ext_resource type="PackedScene" uid="uid://bq15bmxlhvp7w" path="res://scenes/player.tscn" id="1_5wfga"]
 [ext_resource type="Texture2D" uid="uid://cg3qato8x1xo4" path="res://assets/sprites/world_tileset.png" id="1_lpgj1"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://cmg0txqcb1m4p" path="res://scenes/killzone.tscn" id="5_qk3ok"]
 [ext_resource type="PackedScene" uid="uid://ctsv4mdolnj24" path="res://scenes/slime.tscn" id="6_7udeh"]
 [ext_resource type="FontFile" uid="uid://uxqpkrdkcg0m" path="res://assets/fonts/PixelOperator8.ttf" id="7_4k062"]
+[ext_resource type="PackedScene" uid="uid://dnxrsvpg21cpg" path="res://scenes/fan.tscn" id="8_coyap"]
+[ext_resource type="PackedScene" uid="uid://b3ufcqc8scj17" path="res://scenes/breakable_wall.tscn" id="10_4gv8h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_la2uf"]
 texture = ExtResource("1_lpgj1")
@@ -301,7 +303,7 @@ position = Vector2(601, -138)
 [node name="Platforms" type="Node" parent="."]
 
 [node name="Platform" parent="Platforms" instance=ExtResource("3_eaha0")]
-position = Vector2(-13, -16)
+position = Vector2(-14, -16)
 
 [node name="Platform2" parent="Platforms" instance=ExtResource("3_eaha0")]
 position = Vector2(322, 19)
@@ -311,6 +313,11 @@ libraries = {
 "": SubResource("AnimationLibrary_gntfn")
 }
 autoplay = "RESET"
+
+[node name="Fans" type="Node" parent="."]
+
+[node name="Fan" parent="Fans" instance=ExtResource("8_coyap")]
+position = Vector2(42, -58)
 
 [node name="Slime" parent="." instance=ExtResource("6_7udeh")]
 position = Vector2(506, 34)
@@ -357,3 +364,8 @@ theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
 theme_override_fonts/font = ExtResource("7_4k062")
 theme_override_font_sizes/font_size = 8
 text = "Great Job!"
+
+[node name="Breakable_Walls" type="Node" parent="."]
+
+[node name="BreakableWall" parent="Breakable_Walls" instance=ExtResource("10_4gv8h")]
+position = Vector2(490, -11)

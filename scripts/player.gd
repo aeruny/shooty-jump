@@ -34,8 +34,8 @@ var effective_fall = MAX_FALL
 var facingRight = true
 var shots = 1
 var max_shots = 1
-
 var up_jump_time = 0
+var state_machine # for animations
 
 enum SpinTypes{
 	POINT = 0,
@@ -46,6 +46,11 @@ enum SpinTypes{
 # Mid-air_point behavior
 var spin_type  = SpinTypes.NO_SPIN
 
+
+# function for state machine
+func _ready():
+	state_machine = $AnimationTree.get("parameters/playback")
+	
 
 # shoot a bullet relative to self
 func shoot(direction):
@@ -59,7 +64,7 @@ func shoot(direction):
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite: Sprite2D = $Sprite2D
 
 func _physics_process(delta):
 
@@ -69,7 +74,7 @@ func _physics_process(delta):
 	# Start in air -------------------------------------------------------------------
 	if not is_on_floor():
 
-		animated_sprite.play("jump")
+		
 
 		# If still have base jump, determine the coyotee factor
 		if not_started_jump and ground_jump:
@@ -145,22 +150,22 @@ func _physics_process(delta):
 		if (not facingRight and Input.is_action_pressed("move_right") 
 			and not Input.is_action_pressed("move_left")):
 			facingRight = true
-			animated_sprite.flip_h = false
-			animated_sprite.position.x = 4.0
+			sprite.flip_h = false
+			sprite.position.x = 4.0
 
 		# Turn around - turn left if not facing left, you press left, 
 		# not pressing right (and didnt turn right)			
 		elif (facingRight and Input.is_action_pressed("move_left") 
 			and not Input.is_action_pressed("move_right")):
 			facingRight = false
-			animated_sprite.flip_h = true
-			animated_sprite.position.x = -4.0
+			sprite.flip_h = true
+			sprite.position.x = -4.0
 
 
 		# If moving character
 		if direction:
 			
-			animated_sprite.play("run")	
+			state_machine.travel("walk")
 			
 			# If moving in direction of existing movement
 			if direction == velocity.sign().x:
@@ -177,12 +182,12 @@ func _physics_process(delta):
 			if abs(velocity.x) > 0:
 				velocity.x -= velocity.sign().x * SLOWINGSPEED * delta
 			else:
-				animated_sprite.play("idle")
+				state_machine.travel("idle")
 	# End on floor ----------------------------------------------------------------------
 
 
 	# Handle jump.
-	if Input.is_action_pressed("ui_accept"):
+	if Input.is_action_pressed("jump"):
 		
 		# Ground Jump behavior
 		if ground_jump:
@@ -191,7 +196,8 @@ func _physics_process(delta):
 			not_started_jump = false
 			up_jump_time += 0.01
 			
-		elif double_jump and Input.is_action_just_pressed("ui_accept"):
+		elif double_jump and Input.is_action_just_pressed("jump"):
+			state_machine.travel("jump") 
 			spin_type = SpinTypes.POINT
 			velocity.y = DJUMP_VELOCITY
 			not_started_jump = false
@@ -203,13 +209,14 @@ func _physics_process(delta):
 		if up_jump_time > MAX_JUMP_TIME:
 			up_jump_time = 0
 			ground_jump = false
-		elif not Input.is_action_pressed("ui_accept"):
+		elif not Input.is_action_pressed("jump"):
 			ground_jump = false
 			up_jump_time = 0
 			
 			
 			
 	if shots > 0 and Input.is_action_just_pressed("Click") and not double_jump:
+		state_machine.travel("shoot")
 		if facingRight:
 			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
 			shoot(1)
@@ -217,6 +224,7 @@ func _physics_process(delta):
 			velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)
 			shoot(-1)
 		shots -= 1
+		
 
 
 	if velocity.length() > TRUE_MAX_SPEED:
@@ -229,3 +237,5 @@ func _physics_process(delta):
 			velocity.y = 0
 
 	move_and_slide()
+	
+		
