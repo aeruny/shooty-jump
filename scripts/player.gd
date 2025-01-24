@@ -111,9 +111,7 @@ func _physics_process(delta):
 		# Old Air movement, disallow gaining momentum horizontally in air				
 		#if direction != 0 and direction != velocity.sign().x:
 			#velocity.x -= velocity.sign().x * SPEED * 0.5 * delta
-		
-		if shots < 1:
-			emit_signal("bullet_update", 1-shots)
+
 
 		
 		# New Air movement - move horizontally in air same as on ground
@@ -134,6 +132,9 @@ func _physics_process(delta):
 
 	# Start on floor -----------------------------------------------------------------------
 	else:
+		
+		if shots < 1:
+			emit_signal("bullet_update", 1-shots)
 		
 		# Initiate from landing
 		ground_jump = true

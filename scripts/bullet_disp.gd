@@ -12,7 +12,7 @@ const BULLET_INDICATOR = preload("res://scenes/bullet_indicator.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player.connect("bullet_update", update_bullets_display, 1)
-	for i in range(3):
+	for i in range(1):
 		add_bullet()
 
 
