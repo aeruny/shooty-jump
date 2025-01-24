@@ -1,18 +1,18 @@
 [gd_scene load_steps=8 format=3 uid="uid://dj3dhkk08o4jg"]
 
 [ext_resource type="Script" path="res://scripts/bullet_beta.gd" id="1_okhjp"]
-[ext_resource type="Texture2D" uid="uid://buaue7h8j1xyr" path="res://assets/sprites/fruit.png" id="2_7icqc"]
+[ext_resource type="Texture2D" uid="uid://dtcrgkojy7bk" path="res://assets/sprites/gunrealsmall.png" id="2_xoqpb"]
 [ext_resource type="AudioStream" uid="uid://b42iv1tklkx33" path="res://assets/sounds/bullet_ground_hit1.wav" id="3_ioeus"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uwp6f"]
-atlas = ExtResource("2_7icqc")
-region = Rect2(0, 48, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ab0oy"]
+atlas = ExtResource("2_xoqpb")
+region = Rect2(80, 64, 40, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_vukxj"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xwmof"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uwp6f")
+"texture": SubResource("AtlasTexture_ab0oy")
 }],
 "loop": true,
 "name": &"default",
@@ -32,7 +32,8 @@ sync_to_physics = false
 script = ExtResource("1_okhjp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_vukxj")
+position = Vector2(-1, 4)
+sprite_frames = SubResource("SpriteFrames_xwmof")
 offset = Vector2(0, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

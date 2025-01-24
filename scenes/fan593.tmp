@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnxrsvpg21cpg"]
+
+[ext_resource type="Script" path="res://scripts/fan.gd" id="1_ekid6"]
+[ext_resource type="Texture2D" uid="uid://cqbbsvt88amwb" path="res://assets/sprites/platforms.png" id="2_17xm7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wnhd"]
+atlas = ExtResource("2_17xm7")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pgdlh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wnhd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1momd"]
+size = Vector2(15, 36)
+
+[node name="Fan" type="Area2D"]
+collision_mask = 10
+script = ExtResource("1_ekid6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pgdlh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_1momd")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

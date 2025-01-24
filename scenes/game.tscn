@@ -1,5 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://brccjvx7arvoe"]
 
+
 [ext_resource type="PackedScene" uid="uid://bq15bmxlhvp7w" path="res://scenes/player.tscn" id="1_5wfga"]
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_kdnnl"]
 [ext_resource type="Texture2D" uid="uid://cg3qato8x1xo4" path="res://assets/sprites/world_tileset.png" id="1_lpgj1"]
@@ -346,7 +347,7 @@ position = Vector2(601, -138)
 [node name="Platforms" type="Node" parent="."]
 
 [node name="Platform" parent="Platforms" instance=ExtResource("3_eaha0")]
-position = Vector2(-13, -16)
+position = Vector2(-14, -16)
 
 [node name="Platform2" parent="Platforms" instance=ExtResource("3_eaha0")]
 position = Vector2(322, 19)
@@ -356,6 +357,11 @@ libraries = {
 "": SubResource("AnimationLibrary_gntfn")
 }
 autoplay = "RESET"
+
+[node name="Fans" type="Node" parent="."]
+
+[node name="Fan" parent="Fans" instance=ExtResource("8_coyap")]
+position = Vector2(42, -58)
 
 [node name="Slime" parent="." instance=ExtResource("6_7udeh")]
 position = Vector2(506, 34)
