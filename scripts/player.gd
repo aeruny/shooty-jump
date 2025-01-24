@@ -66,7 +66,7 @@ func _physics_process(delta):
 	# Input directions
 	var direction = Input.get_axis("move_left", "move_right")
   
-  $RunParticles.emitting = false
+	$RunParticles.emitting = false
 
 	# Start in air -------------------------------------------------------------------
 	if not is_on_floor():
@@ -203,9 +203,9 @@ func _physics_process(delta):
 			not_started_jump = false
 			double_jump = false
 			velocity.x += DJ_BOOST * direction
-      $PlayerDoubleJumpSound.play()
+			$PlayerDoubleJumpSound.play()
 
-      
+	  
 	if up_jump_time > 0:
 		up_jump_time += delta
 		if up_jump_time > MAX_JUMP_TIME:
