@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://ct85cc3emevyy"]
+
+[ext_resource type="Texture2D" uid="uid://b0lrp0ht3nsrc" path="res://assets/sprites/switch_off.png" id="1_3edp2"]
+[ext_resource type="Script" path="res://switch.gd" id="1_ssiec"]
+[ext_resource type="Texture2D" uid="uid://4edao2rq1can" path="res://assets/sprites/switch_on.png" id="2_jg5kj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r6f4t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_3edp2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jg5kj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mji3p"]
+
+[node name="switch" type="Area2D"]
+script = ExtResource("1_ssiec")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r6f4t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mji3p")
