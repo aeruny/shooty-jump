@@ -4,7 +4,7 @@ extends AnimatableBody2D
 var shot_angle
 var spawn_position
 var facing_scale
-var speed = 200
+var speed = 400
 var velocity
 @onready var timer: Timer = $Timer
 

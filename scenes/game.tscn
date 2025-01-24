@@ -1,7 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://brccjvx7arvoe"]
+[gd_scene load_steps=24 format=3 uid="uid://brccjvx7arvoe"]
 
 [ext_resource type="PackedScene" uid="uid://bq15bmxlhvp7w" path="res://scenes/player.tscn" id="1_5wfga"]
-[ext_resource type="Script" path="res://scenes/game.gd" id="1_kdnnl"]
 [ext_resource type="Texture2D" uid="uid://cg3qato8x1xo4" path="res://assets/sprites/world_tileset.png" id="1_lpgj1"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_yepj7"]
 [ext_resource type="PackedScene" uid="uid://84kqksqda153" path="res://scenes/platform.tscn" id="3_eaha0"]
@@ -11,13 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://dbtpr151evibu" path="res://scenes/bullet_display.tscn" id="5_ra2qs"]
 [ext_resource type="PackedScene" uid="uid://ctsv4mdolnj24" path="res://scenes/slime.tscn" id="6_7udeh"]
 [ext_resource type="FontFile" uid="uid://uxqpkrdkcg0m" path="res://assets/fonts/PixelOperator8.ttf" id="7_4k062"]
-[ext_resource type="PackedScene" uid="uid://ct85cc3emevyy" path="res://switch.tscn" id="9_u7for"]
-[ext_resource type="PackedScene" uid="uid://bh6p1ek4bcpsb" path="res://door.tscn" id="10_j4u6a"]
-[ext_resource type="PackedScene" uid="uid://cgurdh7ykdddj" path="res://reflect.tscn" id="12_bnpkj"]
+[ext_resource type="PackedScene" uid="uid://ct85cc3emevyy" path="res://scenes/switch.tscn" id="9_u7for"]
+[ext_resource type="PackedScene" uid="uid://cgurdh7ykdddj" path="res://scenes/reflect.tscn" id="12_bnpkj"]
 [ext_resource type="AudioStream" uid="uid://b42iv1tklkx33" path="res://assets/sounds/bullet_ground_hit1.wav" id="12_wjh5n"]
 [ext_resource type="PackedScene" uid="uid://d23nq287om167" path="res://scenes/trampoline.tscn" id="16_pks0v"]
 [ext_resource type="PackedScene" uid="uid://dnxrsvpg21cpg" path="res://scenes/fan.tscn" id="17_q1i3o"]
 [ext_resource type="PackedScene" uid="uid://b3ufcqc8scj17" path="res://scenes/breakable_wall.tscn" id="18_dk8gf"]
+[ext_resource type="PackedScene" uid="uid://bu3w6qqkp6u0w" path="res://scenes/door.tscn" id="19_1fjtu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_la2uf"]
 texture = ExtResource("1_lpgj1")
@@ -235,58 +234,21 @@ _data = {
 "move": SubResource("Animation_j16ts")
 }
 
-[sub_resource type="Animation" id="Animation_6cx1y"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(58, -82)]
-}
-
-[sub_resource type="Animation" id="Animation_nq36l"]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(58, -82), Vector2(58, -50)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_83jpq"]
-_data = {
-"RESET": SubResource("Animation_6cx1y"),
-"open": SubResource("Animation_nq36l")
-}
-
 [node name="Game" type="Node2D"]
-script = ExtResource("1_kdnnl")
 
 [node name="Game Manager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_yepj7")
 
 [node name="ScoreLabel" type="Label" parent="Game Manager"]
-offset_left = 551.0
-offset_top = -190.0
-offset_right = 687.0
-offset_bottom = -177.0
+offset_left = 546.0
+offset_top = -186.0
+offset_right = 642.0
+offset_bottom = -173.0
 theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
 theme_override_fonts/font = ExtResource("7_4k062")
 theme_override_font_sizes/font_size = 8
-text = "You collected X coins."
+text = "Almost there..."
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-30, -2)
@@ -385,16 +347,6 @@ theme_override_font_sizes/font_size = 8
 text = "Falling Hurts
 "
 
-[node name="Label3" type="Label" parent="Labels"]
-offset_left = 709.0
-offset_top = -77.0
-offset_right = 805.0
-offset_bottom = -64.0
-theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
-theme_override_fonts/font = ExtResource("7_4k062")
-theme_override_font_sizes/font_size = 8
-text = "Almost there..."
-
 [node name="Label4" type="Label" parent="Labels"]
 offset_left = 562.0
 offset_top = -213.0
@@ -404,18 +356,6 @@ theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
 theme_override_fonts/font = ExtResource("7_4k062")
 theme_override_font_sizes/font_size = 8
 text = "Great Job!"
-
-[node name="switch" parent="." instance=ExtResource("9_u7for")]
-position = Vector2(122, -158)
-script = null
-
-[node name="door" parent="." instance=ExtResource("10_j4u6a")]
-position = Vector2(58, -82)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="door"]
-libraries = {
-"": SubResource("AnimationLibrary_83jpq")
-}
 
 [node name="reflect" parent="." instance=ExtResource("12_bnpkj")]
 position = Vector2(199, -65)
@@ -454,4 +394,9 @@ position = Vector2(121, -49)
 [node name="BreakableWall" parent="." instance=ExtResource("18_dk8gf")]
 position = Vector2(289, -6)
 
-[connection signal="body_entered" from="switch" to="." method="_on_switch_body_entered"]
+[node name="door" parent="." instance=ExtResource("19_1fjtu")]
+position = Vector2(58, -82)
+
+[node name="switch" parent="." node_paths=PackedStringArray("door") instance=ExtResource("9_u7for")]
+position = Vector2(130, -143)
+door = NodePath("../door")

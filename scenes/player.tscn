@@ -141,6 +141,7 @@ states/shoot/position = Vector2(528, 302)
 states/walk/node = SubResource("AnimationNodeAnimation_oq1rk")
 states/walk/position = Vector2(528, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4rp5u"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_fmy4t"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_tloae"), "walk", "jump", SubResource("AnimationNodeStateMachineTransition_s707o"), "jump", "shoot", SubResource("AnimationNodeStateMachineTransition_6n0wc"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_je3hx"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_xby3v"), "shoot", "jump", SubResource("AnimationNodeStateMachineTransition_3e3vo")]
+graph_offset = Vector2(-35, 49.3402)
 
 [sub_resource type="Gradient" id="Gradient_1naoe"]
 offsets = PackedFloat32Array(0.346667, 0.653333, 0.806667, 1)
