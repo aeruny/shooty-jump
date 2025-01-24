@@ -40,6 +40,7 @@ var shots = 1
 var max_shots = 1
 
 var up_jump_time = 0
+var trampoline_shot = false
 
 enum SpinTypes{
 	POINT = 0,
@@ -229,6 +230,7 @@ func _physics_process(delta):
 			
 			
 	if shots > 0 and Input.is_action_just_pressed("Click") and not double_jump:
+		trampoline_shot = true
 		if facingRight:
 			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
 			shoot(1)
