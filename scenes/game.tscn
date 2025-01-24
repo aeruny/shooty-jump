@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://brccjvx7arvoe"]
+[gd_scene load_steps=16 format=3 uid="uid://brccjvx7arvoe"]
 
 [ext_resource type="PackedScene" uid="uid://bq15bmxlhvp7w" path="res://scenes/player.tscn" id="1_5wfga"]
 [ext_resource type="Texture2D" uid="uid://cg3qato8x1xo4" path="res://assets/sprites/world_tileset.png" id="1_lpgj1"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cmg0txqcb1m4p" path="res://scenes/killzone.tscn" id="5_qk3ok"]
 [ext_resource type="PackedScene" uid="uid://ctsv4mdolnj24" path="res://scenes/slime.tscn" id="6_7udeh"]
 [ext_resource type="FontFile" uid="uid://uxqpkrdkcg0m" path="res://assets/fonts/PixelOperator8.ttf" id="7_4k062"]
+[ext_resource type="AudioStream" uid="uid://b42iv1tklkx33" path="res://assets/sounds/bullet_ground_hit1.wav" id="12_wjh5n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_la2uf"]
 texture = ExtResource("1_lpgj1")
@@ -357,3 +358,6 @@ theme_override_colors/font_color = Color(0, 0, 0.752941, 1)
 theme_override_fonts/font = ExtResource("7_4k062")
 theme_override_font_sizes/font_size = 8
 text = "Great Job!"
+
+[node name="BulletGroundHit1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_wjh5n")

@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bq15bmxlhvp7w"]
+[gd_scene load_steps=9 format=3 uid="uid://bq15bmxlhvp7w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_dh7nc"]
 [ext_resource type="Texture2D" uid="uid://c1bb1qjl5sm8o" path="res://assets/sprites/gun_test_sprite.png" id="2_rqwxv"]
+[ext_resource type="AudioStream" uid="uid://fc2jdrb7nmng" path="res://assets/sounds/shoot1.wav" id="3_w80n1"]
+[ext_resource type="AudioStream" uid="uid://d3qw1ruoajpsb" path="res://assets/sounds/jump1.wav" id="4_ydvtp"]
+[ext_resource type="AudioStream" uid="uid://b3f8uxsox2sqm" path="res://assets/sounds/jump.wav" id="5_xjo65"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x8j2n"]
 animations = [{
@@ -34,6 +37,10 @@ animations = [{
 radius = 4.0
 height = 16.0
 
+[sub_resource type="Gradient" id="Gradient_1naoe"]
+offsets = PackedFloat32Array(0.346667, 0.653333, 0.806667, 1)
+colors = PackedColorArray(0.682668, 0.408226, 0.0268953, 1, 0.909388, 0.618185, 0.359864, 1, 0.768059, 0.559133, 0.391918, 1, 0.614659, 0.491609, 0.295499, 1)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
@@ -47,3 +54,29 @@ autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_dmht4")
+
+[node name="PlayerGunSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_w80n1")
+bus = &"SFX"
+
+[node name="PlayerJumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ydvtp")
+bus = &"SFX"
+
+[node name="PlayerDoubleJumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_xjo65")
+bus = &"SFX"
+
+[node name="RunParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, 8)
+amount = 20
+lifetime = 0.3
+direction = Vector2(0, 0)
+spread = 40.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_1naoe")
+hue_variation_min = -0.38
+hue_variation_max = 1.0
