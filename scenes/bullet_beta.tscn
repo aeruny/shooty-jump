@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dj3dhkk08o4jg"]
+[gd_scene load_steps=8 format=3 uid="uid://dj3dhkk08o4jg"]
 
 [ext_resource type="Script" path="res://scripts/bullet_beta.gd" id="1_okhjp"]
 [ext_resource type="Texture2D" uid="uid://dtcrgkojy7bk" path="res://assets/sprites/gunrealsmall.png" id="2_xoqpb"]
+[ext_resource type="AudioStream" uid="uid://b42iv1tklkx33" path="res://assets/sounds/bullet_ground_hit1.wav" id="3_ioeus"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ab0oy"]
 atlas = ExtResource("2_xoqpb")
@@ -49,3 +50,7 @@ sync_to_physics = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bullet_beta_kill_zone"]
 shape = SubResource("CircleShape2D_f2c10")
+
+[node name="BulletGroundHitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ioeus")
+volume_db = -14.054

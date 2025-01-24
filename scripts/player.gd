@@ -23,6 +23,10 @@ const MAX_JUMP_TIME = 0.3
 const SHOT_VELOCITY = 200.0
 
 
+
+signal bullet_update
+
+
 @onready var bullet_beta = preload("res://scenes/bullet_beta.tscn")
 @onready var main = get_tree().get_root()
 
@@ -36,6 +40,7 @@ var shots = 1
 var max_shots = 1
 var up_jump_time = 0
 var state_machine # for animations
+var trampoline_shot = false
 
 enum SpinTypes{
 	POINT = 0,
@@ -59,7 +64,9 @@ func shoot(direction):
 	bullet.facing_scale = direction
 	bullet.spawn_position = global_position + Vector2(10 * direction, -2).rotated(rotation)
 	get_parent().add_child(bullet)
-	
+	emit_signal("bullet_update", -1)
+	$PlayerGunSound.play()
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -70,6 +77,8 @@ func _physics_process(delta):
 
 	# Input directions
 	var direction = Input.get_axis("move_left", "move_right")
+  
+	$RunParticles.emitting = false
 
 	# Start in air -------------------------------------------------------------------
 	if not is_on_floor():
@@ -98,7 +107,7 @@ func _physics_process(delta):
 					
 					if not facingRight:
 						rotate(-PI)
-						
+
 				SpinTypes.WILD_SPIN:
 					if facingRight:
 						rotate(JUMPWILD_SPIN_SPEED * delta)
@@ -108,6 +117,8 @@ func _physics_process(delta):
 		# Old Air movement, disallow gaining momentum horizontally in air				
 		#if direction != 0 and direction != velocity.sign().x:
 			#velocity.x -= velocity.sign().x * SPEED * 0.5 * delta
+
+
 		
 		# New Air movement - move horizontally in air same as on ground
 		# If moving character
@@ -127,6 +138,9 @@ func _physics_process(delta):
 
 	# Start on floor -----------------------------------------------------------------------
 	else:
+		
+		if shots < 1:
+			emit_signal("bullet_update", 1-shots)
 		
 		# Initiate from landing
 		ground_jump = true
@@ -169,9 +183,13 @@ func _physics_process(delta):
 			
 			# If moving in direction of existing movement
 			if direction == velocity.sign().x:
-				if abs(velocity.x) < SPEED:
+				if abs(velocity.x) < TOPSPEED:
 					velocity.x += direction * SPEED * delta
+					if abs(velocity.x) > TOPSPEED * 0.4:
+						print(velocity)
+						$RunParticles.emitting = true
 				else:
+					
 					velocity.x = TOPSPEED * velocity.sign().x
 			# When turning around/moving against existing movement
 			else:
@@ -195,6 +213,7 @@ func _physics_process(delta):
 			velocity.y = JUMP_VELOCITY
 			not_started_jump = false
 			up_jump_time += 0.01
+			$PlayerJumpSound.play()
 			
 		elif double_jump and Input.is_action_just_pressed("jump"):
 			state_machine.travel("jump") 
@@ -203,7 +222,9 @@ func _physics_process(delta):
 			not_started_jump = false
 			double_jump = false
 			velocity.x += DJ_BOOST * direction
+			$PlayerDoubleJumpSound.play()
 
+	  
 	if up_jump_time > 0:
 		up_jump_time += delta
 		if up_jump_time > MAX_JUMP_TIME:
@@ -217,6 +238,7 @@ func _physics_process(delta):
 			
 	if shots > 0 and Input.is_action_just_pressed("Click") and not double_jump:
 		state_machine.travel("shoot")
+		trampoline_shot = true
 		if facingRight:
 			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
 			shoot(1)
@@ -237,5 +259,23 @@ func _physics_process(delta):
 			velocity.y = 0
 
 	move_and_slide()
-	
+
+func get_floor_color(position: Vector2) -> Color:
+	# Get the floor node (assume it is a Sprite or has a texture)
+	var floor = $Floor  # Replace with the actual path to your floor node
+
+	if floor is Sprite2D and floor.texture:
+		var texture = floor.texture
+		var tex_data = texture.get_data()
+		tex_data.lock()  # Lock the texture data to read pixel colors
 		
+		# Convert world position to texture coordinates
+		var tex_coords = (position - floor.global_position) / floor.scale
+		tex_coords.x = clamp(tex_coords.x, 0, texture.get_width() - 1)
+		tex_coords.y = clamp(tex_coords.y, 0, texture.get_height() - 1)
+		
+		var color = tex_data.get_pixelv(tex_coords)
+		tex_data.unlock()
+		
+		return color
+	return Color(1, 1, 1)  # Default color if no texture is found
