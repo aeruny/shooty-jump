@@ -28,6 +28,7 @@ var coyotee_time = 0
 var effective_fall = MAX_FALL
 var facingRight = true
 var shots = 3
+var trampoline_shot = false
 
 enum SpinTypes{
 	POINT = 0,
@@ -160,6 +161,7 @@ func _physics_process(delta):
 			velocity.x += DJ_BOOST * direction
 			
 	if shots > 0 and Input.is_action_just_pressed("Click"):
+		trampoline_shot = true
 		if facingRight:
 			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
 			shoot(1)
@@ -175,3 +177,4 @@ func _physics_process(delta):
 		velocity = velocity.normalized() * TRUE_MAX_SPEED
 
 	move_and_slide()
+	
