@@ -21,6 +21,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mji3p"]
 
 [node name="switch" type="Area2D"]
+collision_mask = 9
 script = ExtResource("1_ssiec")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
