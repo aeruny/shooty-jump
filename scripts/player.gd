@@ -208,6 +208,7 @@ func _physics_process(delta):
 			velocity.y = JUMP_VELOCITY
 			not_started_jump = false
 			up_jump_time += 0.01
+			$PlayerJumpSound.play()
 			
 		elif double_jump and Input.is_action_just_pressed("ui_accept"):
 			spin_type = SpinTypes.POINT

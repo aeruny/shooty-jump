@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c1bb1qjl5sm8o" path="res://assets/sprites/gun_test_sprite.png" id="2_rqwxv"]
 [ext_resource type="AudioStream" uid="uid://fc2jdrb7nmng" path="res://assets/sounds/shoot1.wav" id="3_w80n1"]
 [ext_resource type="AudioStream" uid="uid://d3qw1ruoajpsb" path="res://assets/sounds/jump1.wav" id="4_ydvtp"]
-[ext_resource type="AudioStream" uid="uid://b3f8uxsox2sqm" path="res://assets/sounds/jump.wav" id="5_xjo65"]
+[ext_resource type="AudioStream" uid="uid://j63pfc6h6lyl" path="res://assets/sounds/jump.wav" id="5_xjo65"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x8j2n"]
 animations = [{
