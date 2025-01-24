@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://bxr0604scm6k2" path="res://assets/sounds/death1.wav" id="2_hg2ew"]
 
 [node name="Killzone" type="Area2D"]
-collision_mask = 2
+collision_mask = 10
 script = ExtResource("1_4ev8v")
 
 [node name="Timer" type="Timer" parent="."]

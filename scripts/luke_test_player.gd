@@ -1,17 +1,25 @@
 extends CharacterBody2D
 
-
 const SPEED = 200.0
 const TOPSPEED = 220.0
 const SLOWINGSPEED = 600.0
 const TURNINGSPEED = 1200.0
 const JUMP_VELOCITY = -400.0
 const DJUMP_VELOCITY = -200.0
-const MAX_FALL = 350
-const MINSPEED = 10
+const MAX_FALL = 350.0
+const MINSPEED = 10.0
+const DJ_BOOST = 100.0
+const COYOTEE_ALLOWANCE = 0.4
+const STANDUP_SPEED = 10
+const JUMPSPIN_SPEED = 9
+const SHOT_VELOCITY = 200.0
+
+const TRUE_MAX_SPEED = 500
 
 #@onready var sprite = get_node("NewPiskel-1_png")
 #@onready var shooter = get_node("Shooter")
+@onready var bullet_beta = preload("res://scenes/bullet_beta.tscn")
+@onready var main = get_tree().get_root()
 
 var landed = false
 var double_jump = true
@@ -30,16 +38,25 @@ var spin_type  = SpinTypes.POINT
 
 
 
+func shoot(direction):
+	var bullet = bullet_beta.instantiate()
+	bullet.shot_angle = rotation
+	bullet.facing_scale = direction
+	bullet.spawn_position = global_position + Vector2(10 * direction, -2).rotated(rotation)
+	get_parent().add_child(bullet)
+	
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		if ground_jump:
 			coyotee_time += delta
-			if coyotee_time > 1:
+			if coyotee_time > COYOTEE_ALLOWANCE:
 				coyotee_time = 0
 				ground_jump = false
 		if velocity.y <= MAX_FALL:
@@ -54,32 +71,49 @@ func _physics_process(delta):
 							rotate(-PI)
 					SpinTypes.SPIN:
 						if facingRight:
-							rotate(0.025 * PI )
+							rotate(JUMPSPIN_SPEED * delta)
 						else:
-							rotate(-0.025 * PI )
+							rotate(-JUMPSPIN_SPEED * delta)
 						
-		
+	var direction = Input.get_axis("move_left", "move_right")
+	
 	if is_on_floor():
 		
 		ground_jump = true
 		double_jump = true
 		landed = true
-		rotation = 0
+		shots = 3
 		
-		var direction = Input.get_axis("ui_left", "ui_right")
-		
+		if rotation !=0:
+			if rotation > 0:
+				rotate(-STANDUP_SPEED * delta)
+			elif rotation < 0:
+				rotate(STANDUP_SPEED * delta)
+			
+			if abs(rotation) < 0.1:
+					rotation = 0
 					
-		if Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_left"):
+		if (not facingRight and Input.is_action_pressed("move_right") 
+			and not Input.is_action_pressed("move_left")):
 			facingRight = true
+			animated_sprite.flip_h = false
+			animated_sprite.position.x = 4.0
+
 			#sprite.flip(direction)
 			#shooter.flip(direction)
 			
-		elif Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
+		elif (facingRight and Input.is_action_pressed("move_left") 
+			and not Input.is_action_pressed("move_right")):
 			facingRight = false
+			animated_sprite.flip_h = true
+			animated_sprite.position.x = -4.0
+
 			#sprite.flip(direction)
 			#shooter.flip(direction)
 		
 		if direction:
+			
+			animated_sprite.play("run")	
 			
 			if direction == velocity.sign().x:
 				if abs(velocity.x) < SPEED:
@@ -96,13 +130,15 @@ func _physics_process(delta):
 			
 			
 		else:
+			animated_sprite.play("jump")
+			
 			velocity.x -= velocity.sign().x * SLOWINGSPEED * delta
 			
 			if abs(velocity.x) < MINSPEED:
 				velocity.x = 0
 	
 	else:
-		var direction = Input.get_axis("ui_left", "ui_right")
+		animated_sprite.play("idle")
 		if direction != 0 and direction != velocity.sign().x:
 			velocity.x -= velocity.sign().x * SPEED * 0.5 * delta
 			
@@ -121,11 +157,21 @@ func _physics_process(delta):
 			velocity.y = DJUMP_VELOCITY
 			landed = false
 			double_jump = false
+			velocity.x += DJ_BOOST * direction
+			
+	if shots > 0 and Input.is_action_just_pressed("Click"):
+		if facingRight:
+			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
+			shoot(1)
+		else:
+			velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)
+			shoot(-1)
+		shots -= 1
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	if position.y > 1000:
-		position.x = 30
-		position.y = 30
+
+	if velocity.length() > TRUE_MAX_SPEED:
+		velocity = velocity.normalized() * TRUE_MAX_SPEED
 
 	move_and_slide()

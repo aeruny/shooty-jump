@@ -20,10 +20,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yefde"]
-radius = 5.0
+radius = 2.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f2c10"]
+radius = 5.09902
 
 [node name="bullet_beta" type="AnimatableBody2D"]
-collision_layer = 3
+collision_layer = 8
 collision_mask = 3
 sync_to_physics = false
 script = ExtResource("1_okhjp")
@@ -36,9 +39,16 @@ offset = Vector2(0, -3)
 shape = SubResource("CircleShape2D_yefde")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 2.0
 one_shot = true
 autostart = true
+
+[node name="bullet_beta_kill_zone" type="AnimatableBody2D" parent="."]
+collision_layer = 8
+sync_to_physics = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bullet_beta_kill_zone"]
+shape = SubResource("CircleShape2D_f2c10")
 
 [node name="BulletGroundHitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ioeus")
