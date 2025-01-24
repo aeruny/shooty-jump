@@ -23,6 +23,10 @@ const MAX_JUMP_TIME = 0.3
 const SHOT_VELOCITY = 200.0
 
 
+
+signal bullet_update
+
+
 @onready var bullet_beta = preload("res://scenes/bullet_beta.tscn")
 @onready var main = get_tree().get_root()
 
@@ -54,7 +58,9 @@ func shoot(direction):
 	bullet.facing_scale = direction
 	bullet.spawn_position = global_position + Vector2(10 * direction, -2).rotated(rotation)
 	get_parent().add_child(bullet)
+	emit_signal("bullet_update", -1)
 	$PlayerGunSound.play()
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -105,6 +111,10 @@ func _physics_process(delta):
 		# Old Air movement, disallow gaining momentum horizontally in air				
 		#if direction != 0 and direction != velocity.sign().x:
 			#velocity.x -= velocity.sign().x * SPEED * 0.5 * delta
+		
+		if shots < 1:
+			emit_signal("bullet_update", 1-shots)
+
 		
 		# New Air movement - move horizontally in air same as on ground
 		# If moving character
