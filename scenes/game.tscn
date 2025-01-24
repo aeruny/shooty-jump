@@ -1,5 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://brccjvx7arvoe"]
-
+[gd_scene load_steps=28 format=3 uid="uid://brccjvx7arvoe"]
 
 [ext_resource type="PackedScene" uid="uid://bq15bmxlhvp7w" path="res://scenes/player.tscn" id="1_5wfga"]
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_kdnnl"]
@@ -17,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://cgurdh7ykdddj" path="res://reflect.tscn" id="12_bnpkj"]
 [ext_resource type="AudioStream" uid="uid://b42iv1tklkx33" path="res://assets/sounds/bullet_ground_hit1.wav" id="12_wjh5n"]
 [ext_resource type="PackedScene" uid="uid://d23nq287om167" path="res://scenes/trampoline.tscn" id="16_pks0v"]
+[ext_resource type="PackedScene" uid="uid://dnxrsvpg21cpg" path="res://scenes/fan.tscn" id="17_q1i3o"]
+[ext_resource type="PackedScene" uid="uid://b3ufcqc8scj17" path="res://scenes/breakable_wall.tscn" id="18_dk8gf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_la2uf"]
 texture = ExtResource("1_lpgj1")
@@ -358,11 +359,6 @@ libraries = {
 }
 autoplay = "RESET"
 
-[node name="Fans" type="Node" parent="."]
-
-[node name="Fan" parent="Fans" instance=ExtResource("8_coyap")]
-position = Vector2(42, -58)
-
 [node name="Slime" parent="." instance=ExtResource("6_7udeh")]
 position = Vector2(506, 34)
 
@@ -451,5 +447,11 @@ stream = ExtResource("12_wjh5n")
 
 [node name="AnimatableBody2D" parent="." instance=ExtResource("16_pks0v")]
 position = Vector2(-122, -82)
+
+[node name="Fan" parent="." instance=ExtResource("17_q1i3o")]
+position = Vector2(121, -49)
+
+[node name="BreakableWall" parent="." instance=ExtResource("18_dk8gf")]
+position = Vector2(289, -6)
 
 [connection signal="body_entered" from="switch" to="." method="_on_switch_body_entered"]

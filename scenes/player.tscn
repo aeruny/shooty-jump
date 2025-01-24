@@ -1,37 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://bq15bmxlhvp7w"]
+[gd_scene load_steps=27 format=3 uid="uid://bq15bmxlhvp7w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_dh7nc"]
 [ext_resource type="Texture2D" uid="uid://dtcrgkojy7bk" path="res://assets/sprites/gunrealsmall.png" id="2_poke6"]
 [ext_resource type="AudioStream" uid="uid://fc2jdrb7nmng" path="res://assets/sounds/shoot1.wav" id="3_w80n1"]
 [ext_resource type="AudioStream" uid="uid://d3qw1ruoajpsb" path="res://assets/sounds/jump1.wav" id="4_ydvtp"]
 [ext_resource type="AudioStream" uid="uid://j63pfc6h6lyl" path="res://assets/sounds/jump.wav" id="5_xjo65"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_x8j2n"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_rqwxv")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_rqwxv")
-}],
-"loop": true,
-"name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_rqwxv")
-}],
-"loop": true,
-"name": &"run",
-"speed": 10.0
-}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dmht4"]
 radius = 4.0
@@ -172,7 +145,6 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 [sub_resource type="Gradient" id="Gradient_1naoe"]
 offsets = PackedFloat32Array(0.346667, 0.653333, 0.806667, 1)
 colors = PackedColorArray(0.682668, 0.408226, 0.0268953, 1, 0.909388, 0.618185, 0.359864, 1, 0.768059, 0.559133, 0.391918, 1, 0.614659, 0.491609, 0.295499, 1)
-
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
