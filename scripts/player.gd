@@ -9,12 +9,12 @@ const TRUE_MAX_SPEED = 100.0
 const MAX_FALL = 350.0
 const STANDUP_SPEED = 10.0
 const JUMPWILD_SPIN_SPEED = 9.0
-const JUMP_VELOCITY = -150.0
-const DJUMP_VELOCITY = -250.0
+const JUMP_VELOCITY = -130.0
+const DJUMP_VELOCITY = -200.0
 const DJ_BOOST = 0.0
 const COYOTEE_ALLOWANCE = 0.1
 const MAX_JUMP_TIME = 0.3
-const SHOT_VELOCITY = 8.0
+const SHOT_VELOCITY = 6.5
 const GROUND_SHOT_VELOCITY = 100
 
 signal bullet_update
