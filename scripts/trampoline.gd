@@ -1,15 +1,49 @@
 extends AnimatableBody2D
 
-@onready var player: CharacterBody2D = $"../Player"
+var send_player_up = false
+var initial_height = 0
+var player = null
 
-var bounce = false
+@export var trampoline_jump_height = 100
+# trampoline type: 0 - replenish ammo, 1 - do not replenish ammo
+@export var trampoline_type = 0
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
+const AIR_ASSISTANCE = 10
+const SPEED = -400
+
+func _ready() -> void:
+	trampoline_type = clampi(trampoline_type, 0, 1)
+	match trampoline_type:
+		0:
+			sprite_2d.texture =  load('res://assets/sprites/platforms.png')
+			sprite_2d.region_rect = Rect2(16, 48, 32, 9)
+		1:
+			sprite_2d.texture =  load('res://assets/sprites/platforms.png')
+			sprite_2d.region_rect = Rect2(16, 32, 32, 9)
+			
+func _physics_process(delta):
+	# Old code to send player up
+	#if send_player_up == true:
+	#	player.velocity.y = SPEED * delta
+	#	if player.position.y <= initial_height - trampoline_jump_height:
+	#		send_player_up = false
+	#		initial_height = 0
+			
+	#if send_player_up == true and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") and !Input.is_action_pressed("jump")):
+	#	var direction = Input.get_axis("move_left", "move_right")
+	#	player.velocity.x = player.velocity.x * direction * AIR_ASSISTANCE
+	pass
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if player.trampoline_shot == true:
-		print("Bounce!")
-		player.velocity = player.get_real_velocity() * Vector2(1, -2)# Replace with function body.
-		
+	if body.name == "Player":
+		player = body
+		player.trampoline_touch = true
+		player.trampoline_type = trampoline_type
+		player.velocity = Vector2(player.velocity.x, SPEED).rotated(rotation)
+		#initial_height = player.position.y
+		#send_player_up = true
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	player.trampoline_shot = false
-	pass
+	if body.name == "Player":
+		body.trampoline_touch = false

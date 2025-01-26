@@ -1,37 +1,30 @@
 extends CharacterBody2D
 
-const SPEED = 180.0
-const TOPSPEED = 200.0
+const SPEED = 200.0
+const TOPSPEED = 120.0
 const SLOWINGSPEED = 600.0
 const TURNINGSPEED = 1200.0
 const MINSPEED = 10.0
-const TRUE_MAX_SPEED = 400.0
+const TRUE_MAX_SPEED = 100.0
 const MAX_FALL = 350.0
-
-
 const STANDUP_SPEED = 10.0
 const JUMPWILD_SPIN_SPEED = 9.0
-
-
-const JUMP_VELOCITY = -200.0
-const DJUMP_VELOCITY = -300.0
-const DJ_BOOST = 50.0
+const JUMP_VELOCITY = -150.0
+const DJUMP_VELOCITY = -250.0
+const DJ_BOOST = 0.0
 const COYOTEE_ALLOWANCE = 0.1
 const MAX_JUMP_TIME = 0.3
-
-
-const SHOT_VELOCITY = 200.0
-
-
+const SHOT_VELOCITY = 8.0
+const GROUND_SHOT_VELOCITY = 100
 
 signal bullet_update
 
-
 @onready var bullet_beta = preload("res://scenes/bullet_beta.tscn")
 @onready var main = get_tree().get_root()
+@onready var timer: Timer = $Timer
 
 var not_started_jump = false
-var double_jump = true
+var has_double_jump = true
 var ground_jump = false
 var coyotee_time = 0
 var effective_fall = MAX_FALL
@@ -40,7 +33,9 @@ var shots = 1
 var max_shots = 1
 var up_jump_time = 0
 var state_machine # for animations
-var trampoline_shot = false
+
+var trampoline_touch = false
+var trampoline_type = 0
 
 enum SpinTypes{
 	POINT = 0,
@@ -51,12 +46,10 @@ enum SpinTypes{
 # Mid-air_point behavior
 var spin_type  = SpinTypes.NO_SPIN
 
-
 # function for state machine
 func _ready():
 	state_machine = $AnimationTree.get("parameters/playback")
 	
-
 # shoot a bullet relative to self
 func shoot(direction):
 	var bullet = bullet_beta.instantiate()
@@ -66,7 +59,6 @@ func shoot(direction):
 	get_parent().add_child(bullet)
 	emit_signal("bullet_update", -1)
 	$PlayerGunSound.play()
-
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -81,10 +73,22 @@ func _physics_process(delta):
 	$RunParticles.emitting = false
 
 	# Start in air -------------------------------------------------------------------
-	if not is_on_floor():
-
+	if trampoline_touch == true:
+		
+		if trampoline_type == 0:
+			shots = max_shots
+		elif trampoline_type == 1:
+			shots = 0
+		not_started_jump = false
+		ground_jump = false
+		has_double_jump = false
+		state_machine.travel("jump") 
+		spin_type = SpinTypes.POINT
 		
 
+		
+	elif not is_on_floor():
+		
 		# If still have base jump, determine the coyotee factor
 		if not_started_jump and ground_jump:
 			coyotee_time += delta
@@ -125,7 +129,7 @@ func _physics_process(delta):
 		if direction:
 			# If moving in direction of existing movement
 			if direction == velocity.sign().x:
-				if abs(velocity.x) < SPEED:
+				if abs(velocity.x) < TOPSPEED:
 					velocity.x += direction * SPEED * delta
 				elif abs(velocity.x) < TOPSPEED:
 					velocity.x = TOPSPEED * velocity.sign().x
@@ -137,15 +141,18 @@ func _physics_process(delta):
 	# End in air -------------------------------------------------------------------------
 
 	# Start on floor -----------------------------------------------------------------------
+
+	# Start on floor -----------------------------------------------------------------------
 	else:
 		
 		if shots < 1:
 			emit_signal("bullet_update", 1-shots)
 		
 		# Initiate from landing
-		ground_jump = true
-		double_jump = true
 		not_started_jump = true
+		if not Input.is_action_pressed("jump"):
+			ground_jump = true
+			has_double_jump = true
 		shots = max_shots
 		
 		# Standup - spin the shortest rotation, cutoff at 0.1 rads
@@ -202,10 +209,12 @@ func _physics_process(delta):
 			else:
 				state_machine.travel("idle")
 	# End on floor ----------------------------------------------------------------------
-
+		
+		
 
 	# Handle jump.
 	if Input.is_action_pressed("jump"):
+		
 		
 		# Ground Jump behavior
 		if ground_jump:
@@ -213,14 +222,15 @@ func _physics_process(delta):
 			velocity.y = JUMP_VELOCITY
 			not_started_jump = false
 			up_jump_time += 0.01
-			$PlayerJumpSound.play()
+			if Input.is_action_just_pressed("jump"):
+				$PlayerJumpSound.play()
 			
-		elif double_jump and Input.is_action_just_pressed("jump"):
+		elif has_double_jump && Input.is_action_just_pressed("jump"):
 			state_machine.travel("jump") 
 			spin_type = SpinTypes.POINT
 			velocity.y = DJUMP_VELOCITY
 			not_started_jump = false
-			double_jump = false
+			has_double_jump = false
 			velocity.x += DJ_BOOST * direction
 			$PlayerDoubleJumpSound.play()
 
@@ -236,27 +246,44 @@ func _physics_process(delta):
 			
 			
 			
-	if shots > 0 and Input.is_action_just_pressed("Click") and not double_jump:
-		state_machine.travel("shoot")
-		trampoline_shot = true
-		if facingRight:
-			velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)
-			shoot(1)
-		else:
-			velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)
-			shoot(-1)
-		shots -= 1
+	if Input.is_action_just_pressed("Click"):
+		if shots > 0 and not has_double_jump:
+			state_machine.travel("shoot")
+			if facingRight:
+				velocity = (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)/delta
+				shoot(1)
+			else:
+				velocity = (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)/delta
+				shoot(-1)
+			shots -= 1
+		elif timer.is_stopped() and has_double_jump:
+			state_machine.travel("shoot")
+			rotation = 0
+			if facingRight:
+				velocity = (Vector2(-GROUND_SHOT_VELOCITY, 0))
+				shoot(1)
+			else:
+				velocity = (Vector2(GROUND_SHOT_VELOCITY, 0))
+				shoot(-1)
+			timer.start()
+		#print(timer.time_left)
+		
+	# Continues to shoot for a distance to propel the player a certain amount
+	#if timer.is_stopped() == false:
+		#if facingRight:
+		#	velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation) / delta
+		#else:
+		#	velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation) / delta
 		
 
-
-	if velocity.length() > TRUE_MAX_SPEED:
-		velocity = velocity.normalized() * TRUE_MAX_SPEED
+	#if velocity.length() > TRUE_MAX_SPEED and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right")):
+	#	velocity = velocity.normalized() * TRUE_MAX_SPEED
 	# Stop movement if slow enough	
-	else:
-		if abs(velocity.x) < MINSPEED:
-			velocity.x = 0
-		if abs(velocity.y) < MINSPEED:
-			velocity.y = 0
+	
+	if abs(velocity.x) < MINSPEED:
+		velocity.x = 0
+	if abs(velocity.y) < MINSPEED:
+		velocity.y = 0
 
 	move_and_slide()
 
