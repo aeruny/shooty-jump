@@ -60,6 +60,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_gp8jk"]
 resource_name = "shoot"
+length = 0.75
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -141,6 +142,7 @@ states/shoot/position = Vector2(528, 302)
 states/walk/node = SubResource("AnimationNodeAnimation_oq1rk")
 states/walk/position = Vector2(528, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4rp5u"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_fmy4t"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_tloae"), "walk", "jump", SubResource("AnimationNodeStateMachineTransition_s707o"), "jump", "shoot", SubResource("AnimationNodeStateMachineTransition_6n0wc"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_je3hx"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_xby3v"), "shoot", "jump", SubResource("AnimationNodeStateMachineTransition_3e3vo")]
+graph_offset = Vector2(-35, 49.3402)
 
 [sub_resource type="Gradient" id="Gradient_1naoe"]
 offsets = PackedFloat32Array(0.346667, 0.653333, 0.806667, 1)
@@ -193,3 +195,8 @@ scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_1naoe")
 hue_variation_min = -0.38
 hue_variation_max = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

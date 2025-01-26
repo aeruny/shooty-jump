@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3 uid="uid://bu3w6qqkp6u0w"]
+
+[ext_resource type="Texture2D" uid="uid://ffr62cnajct5" path="res://assets/sprites/door.png" id="1_fy1su"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_elr7w"]
+size = Vector2(16, 32)
+
+[sub_resource type="Animation" id="Animation_h043d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_05mf4"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 32), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_smv80"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0pa1k"]
+_data = {
+"RESET": SubResource("Animation_h043d"),
+"close": SubResource("Animation_05mf4"),
+"open": SubResource("Animation_smv80")
+}
+
+[node name="door" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("1_fy1su")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_elr7w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D"]
+libraries = {
+"": SubResource("AnimationLibrary_0pa1k")
+}

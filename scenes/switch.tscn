@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ct85cc3emevyy"]
 
 [ext_resource type="Texture2D" uid="uid://b0lrp0ht3nsrc" path="res://assets/sprites/switch_off.png" id="1_3edp2"]
-[ext_resource type="Script" path="res://switch.gd" id="1_ssiec"]
+[ext_resource type="Script" path="res://scripts/switch.gd" id="1_ssiec"]
 [ext_resource type="Texture2D" uid="uid://4edao2rq1can" path="res://assets/sprites/switch_on.png" id="2_jg5kj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r6f4t"]
@@ -29,3 +29,9 @@ sprite_frames = SubResource("SpriteFrames_r6f4t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_mji3p")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
