@@ -60,6 +60,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_gp8jk"]
 resource_name = "shoot"
+length = 0.75
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -194,3 +195,8 @@ scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_1naoe")
 hue_variation_min = -0.38
 hue_variation_max = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
