@@ -1,19 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://d23nq287om167"]
+[gd_scene load_steps=4 format=3 uid="uid://b8mfhujym7xdv"]
 
-[ext_resource type="Script" path="res://scripts/trampoline.gd" id="1_lv1b6"]
-[ext_resource type="Texture2D" uid="uid://bkmfkfy2fe47y" path="res://assets/sprites/rubber_2.png" id="2_pom3a"]
+[ext_resource type="Script" path="res://scripts/trampoline.gd" id="1_55xjf"]
+[ext_resource type="Texture2D" uid="uid://cbho1n58nljy1" path="res://assets/sprites/rubber.png" id="2_p7odf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rf6wh"]
 size = Vector2(57, 7)
 
 [node name="Trampoline" type="AnimatableBody2D"]
 collision_mask = 2
-script = ExtResource("1_lv1b6")
+script = ExtResource("1_55xjf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, -23)
-rotation = 0.785397
-texture = ExtResource("2_pom3a")
+position = Vector2(0, -11)
+texture = ExtResource("2_p7odf")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 3

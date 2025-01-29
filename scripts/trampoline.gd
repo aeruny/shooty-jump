@@ -4,9 +4,10 @@ var send_player_up = false
 var initial_height = 0
 var player = null
 
-@export var trampoline_jump_height = 100
+@export var trampoline_jump_height = -500
 # trampoline type: 0 - replenish ammo, 1 - do not replenish ammo
 @export var trampoline_type = 0
+@export var texture: Texture2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 const AIR_ASSISTANCE = 10
@@ -16,11 +17,13 @@ func _ready() -> void:
 	trampoline_type = clampi(trampoline_type, 0, 1)
 	match trampoline_type:
 		0:
-			sprite_2d.texture =  load('res://assets/sprites/platforms.png')
-			sprite_2d.region_rect = Rect2(16, 48, 32, 9)
+			#sprite_2d.texture =  load('res://assets/sprites/platforms.png')
+			#sprite_2d.region_rect = Rect2(16, 48, 32, 9)
+			pass
 		1:
-			sprite_2d.texture =  load('res://assets/sprites/platforms.png')
-			sprite_2d.region_rect = Rect2(16, 32, 32, 9)
+			#sprite_2d.texture =  load('res://assets/sprites/platforms.png')
+			#sprite_2d.region_rect = Rect2(16, 32, 32, 9)
+			pass
 			
 func _physics_process(delta):
 	# Old code to send player up
@@ -40,7 +43,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		player = body
 		player.trampoline_touch = true
 		player.trampoline_type = trampoline_type
-		player.velocity = Vector2(player.velocity.x, SPEED).rotated(rotation)
+		player.velocity = Vector2(player.velocity.x, trampoline_jump_height).rotated(rotation)
 		#initial_height = player.position.y
 		#send_player_up = true
 
