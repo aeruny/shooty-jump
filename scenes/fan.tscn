@@ -22,7 +22,7 @@ animations = [{
 size = Vector2(37.75, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4u65d"]
-size = Vector2(38, 25)
+size = Vector2(38, 60)
 
 [node name="Fan" type="AnimatableBody2D"]
 collision_mask = 10
@@ -40,7 +40,7 @@ shape = SubResource("RectangleShape2D_1momd")
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -20.5)
+position = Vector2(0, -36)
 shape = SubResource("RectangleShape2D_4u65d")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
