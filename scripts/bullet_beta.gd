@@ -20,11 +20,15 @@ func _physics_process(delta: float) -> void:
 	
 	var collision = move_and_collide( velocity * delta )
 	if collision:
-
-		print(collision.get_collider())
+		#print(collision.get_collider())
 		if 'reflect' in collision.get_collider().to_string():
+			
 			velocity = velocity.bounce(collision.get_normal())
-		
+			rotation = velocity.angle()
+			if velocity.x < 0: #inconsistent
+				$AnimatedSprite2D.set_flip_h(true) #gets sprite to flip
+		elif 'Receptionist' in collision.get_collider().to_string() && !($"/root/StarterLevels/Receptionist".dead):
+			$"../Receptionist"._shot()
 		else:
 		
 			var wall_sound = AudioStreamPlayer2D.new()

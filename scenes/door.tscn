@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu3w6qqkp6u0w"]
+[gd_scene load_steps=8 format=3 uid="uid://bu3w6qqkp6u0w"]
 
 [ext_resource type="Texture2D" uid="uid://ffr62cnajct5" path="res://assets/sprites/door.png" id="1_fy1su"]
+[ext_resource type="Script" path="res://scripts/door.gd" id="1_knsum"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_elr7w"]
 size = Vector2(16, 32)
@@ -58,6 +59,7 @@ _data = {
 }
 
 [node name="door" type="Node2D"]
+script = ExtResource("1_knsum")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

@@ -8,7 +8,7 @@ collision_mask = 10
 script = ExtResource("1_4ev8v")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.6
+wait_time = 0.3
 one_shot = true
 
 [node name="PlayerDeathSound" type="AudioStreamPlayer" parent="."]

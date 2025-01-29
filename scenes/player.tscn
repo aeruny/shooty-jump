@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bq15bmxlhvp7w"]
+[gd_scene load_steps=33 format=3 uid="uid://bq15bmxlhvp7w"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_dh7nc"]
 [ext_resource type="Texture2D" uid="uid://dtcrgkojy7bk" path="res://assets/sprites/gunrealsmall.png" id="2_poke6"]
@@ -71,7 +71,23 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.233333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [4, 5, 6, 7, 4]
+"values": [12, 5, 6, 7, 4]
+}
+
+[sub_resource type="Animation" id="Animation_5l4hl"]
+resource_name = "shoot_ground"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [13, 9, 10, 11, 0]
 }
 
 [sub_resource type="Animation" id="Animation_0c45o"]
@@ -97,6 +113,7 @@ _data = {
 "idle": SubResource("Animation_s50m2"),
 "jump": SubResource("Animation_wscp5"),
 "shoot": SubResource("Animation_gp8jk"),
+"shoot_ground": SubResource("Animation_5l4hl"),
 "walk": SubResource("Animation_0c45o")
 }
 
@@ -108,6 +125,9 @@ animation = &"jump"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6achc"]
 animation = &"shoot"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2guwg"]
+animation = &"shoot_ground"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oq1rk"]
 animation = &"walk"
@@ -130,6 +150,16 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3e3vo"]
 switch_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fnowh"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pva16"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_krudk"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_24icr"]
+switch_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_j3fk0"]
 states/End/position = Vector2(928, 100)
 states/Start/position = Vector2(267, 100)
@@ -139,10 +169,12 @@ states/jump/node = SubResource("AnimationNodeAnimation_e0qwk")
 states/jump/position = Vector2(528, 192)
 states/shoot/node = SubResource("AnimationNodeAnimation_6achc")
 states/shoot/position = Vector2(528, 302)
+states/shoot_ground/node = SubResource("AnimationNodeAnimation_2guwg")
+states/shoot_ground/position = Vector2(528, -22)
 states/walk/node = SubResource("AnimationNodeAnimation_oq1rk")
 states/walk/position = Vector2(528, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4rp5u"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_fmy4t"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_tloae"), "walk", "jump", SubResource("AnimationNodeStateMachineTransition_s707o"), "jump", "shoot", SubResource("AnimationNodeStateMachineTransition_6n0wc"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_je3hx"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_xby3v"), "shoot", "jump", SubResource("AnimationNodeStateMachineTransition_3e3vo")]
-graph_offset = Vector2(-35, 49.3402)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4rp5u"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_fmy4t"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_tloae"), "walk", "jump", SubResource("AnimationNodeStateMachineTransition_s707o"), "jump", "shoot", SubResource("AnimationNodeStateMachineTransition_6n0wc"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_je3hx"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_xby3v"), "shoot", "jump", SubResource("AnimationNodeStateMachineTransition_3e3vo"), "walk", "shoot_ground", SubResource("AnimationNodeStateMachineTransition_fnowh"), "idle", "shoot_ground", SubResource("AnimationNodeStateMachineTransition_pva16"), "shoot_ground", "walk", SubResource("AnimationNodeStateMachineTransition_krudk"), "shoot_ground", "idle", SubResource("AnimationNodeStateMachineTransition_24icr")]
+graph_offset = Vector2(-141, -60.66)
 
 [sub_resource type="Gradient" id="Gradient_1naoe"]
 offsets = PackedFloat32Array(0.346667, 0.653333, 0.806667, 1)
@@ -155,8 +187,8 @@ script = ExtResource("1_dh7nc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_poke6")
-hframes = 3
-vframes = 3
+hframes = 4
+vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_dmht4")
