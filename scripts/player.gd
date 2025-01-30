@@ -92,7 +92,7 @@ func _physics_process(delta):
 				pass
 			not_started_jump = false
 			ground_jump = false
-			has_double_jump = false
+			has_double_jump = true
 			state_machine.travel("jump") 
 			spin_type = SpinTypes.POINT
 						
