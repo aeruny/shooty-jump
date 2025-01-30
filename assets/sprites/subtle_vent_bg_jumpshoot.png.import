@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1e2goa65dwka"
-path="res://.godot/imported/mr_target.png-415ccddac6965338740c7b4f64c11d91.ctex"
+uid="uid://urmvdwb86ocm"
+path="res://.godot/imported/subtle_vent_bg_jumpshoot.png-4ac888945e8b8d49b8ec3d0e1a84bcf6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/mr_target.png"
-dest_files=["res://.godot/imported/mr_target.png-415ccddac6965338740c7b4f64c11d91.ctex"]
+source_file="res://assets/sprites/subtle_vent_bg_jumpshoot.png"
+dest_files=["res://.godot/imported/subtle_vent_bg_jumpshoot.png-4ac888945e8b8d49b8ec3d0e1a84bcf6.ctex"]
 
 [params]
 

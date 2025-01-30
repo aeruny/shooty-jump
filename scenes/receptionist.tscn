@@ -1,26 +1,26 @@
 [gd_scene load_steps=10 format=3 uid="uid://bd06afn75x317"]
 
 [ext_resource type="Script" path="res://scripts/receptionist.gd" id="1_5srun"]
-[ext_resource type="Texture2D" uid="uid://f8x1lxtn1c1w" path="res://assets/sprites/desk_guy1-Sheet.png" id="2_hpnkg"]
+[ext_resource type="Texture2D" uid="uid://bvwtss71prscu" path="res://assets/sprites/desk_guy1-Sheet.png" id="2_qtc4v"]
 [ext_resource type="FontFile" uid="uid://uxqpkrdkcg0m" path="res://assets/fonts/PixelOperator8.ttf" id="3_qdovx"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7hwrp"]
-atlas = ExtResource("2_hpnkg")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssgdf"]
+atlas = ExtResource("2_qtc4v")
 region = Rect2(0, 0, 15, 39)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eiuxg"]
-atlas = ExtResource("2_hpnkg")
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4388"]
+atlas = ExtResource("2_qtc4v")
 region = Rect2(0, 0, 15, 39)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gbpke"]
-atlas = ExtResource("2_hpnkg")
+[sub_resource type="AtlasTexture" id="AtlasTexture_47ugc"]
+atlas = ExtResource("2_qtc4v")
 region = Rect2(15, 0, 15, 39)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xnlrg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7hwrp")
+"texture": SubResource("AtlasTexture_ssgdf")
 }],
 "loop": true,
 "name": &"default",
@@ -28,10 +28,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_eiuxg")
+"texture": SubResource("AtlasTexture_k4388")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gbpke")
+"texture": SubResource("AtlasTexture_47ugc")
 }],
 "loop": true,
 "name": &"talk",
@@ -51,7 +51,6 @@ script = ExtResource("1_5srun")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xnlrg")
-animation = &"talk"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
