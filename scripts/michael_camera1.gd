@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 	
 	match current_scene:
 		1: # lobby
-			camera_position = Vector2(95, -148)
+			camera_position = Vector2(95, -101)
 			if player.position.x > position.x + CAMERA_WIDTH/2:
 				position = Vector2(720, -309)
 				current_scene = 2
@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 			if player.position.x < position.x - CAMERA_WIDTH/2:
 				position = Vector2(720, -795)
 				current_scene = 4
-			if player.position.x > 1394:
+			if player.position.x > 1435:
 				position = Vector2(1613, -795)
 				current_scene = 6
 				
