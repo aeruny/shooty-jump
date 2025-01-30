@@ -1,7 +1,29 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu3w6qqkp6u0w"]
+[gd_scene load_steps=11 format=3 uid="uid://bu3w6qqkp6u0w"]
 
-[ext_resource type="Texture2D" uid="uid://ffr62cnajct5" path="res://assets/sprites/door.png" id="1_fy1su"]
 [ext_resource type="Script" path="res://scripts/door.gd" id="1_knsum"]
+[ext_resource type="Texture2D" uid="uid://lkiskhsfqtiy" path="res://assets/sprites/shooty_jump_factory_sprites_outline-Sheet.png" id="2_nndo7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4ud0"]
+atlas = ExtResource("2_nndo7")
+region = Rect2(16, 16, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwhem"]
+atlas = ExtResource("2_nndo7")
+region = Rect2(48, 16, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uaffo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4ud0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwhem")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_elr7w"]
 size = Vector2(16, 32)
@@ -63,8 +85,8 @@ script = ExtResource("1_knsum")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-texture = ExtResource("1_fy1su")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
+sprite_frames = SubResource("SpriteFrames_uaffo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_elr7w")

@@ -34,7 +34,7 @@ var max_shots = 1
 var up_jump_time = 0
 var state_machine # for animations
 var control = true # stop player from moving during cutscenes
-var acquired_double_jump = false # for beginnig of game where player can't double jump
+var acquired_double_jump = true # for beginnig of game where player can't double jump
 
 var trampoline_touch = false
 var trampoline_type = 0
@@ -92,7 +92,7 @@ func _physics_process(delta):
 				pass
 			not_started_jump = false
 			ground_jump = false
-			has_double_jump = false
+			has_double_jump = true
 			state_machine.travel("jump") 
 			spin_type = SpinTypes.POINT
 						
