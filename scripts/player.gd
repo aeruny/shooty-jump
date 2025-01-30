@@ -81,9 +81,11 @@ func _physics_process(delta):
 	# Input directions
 	var direction = Input.get_axis("move_left", "move_right")
 	$RunParticles.emitting = false
+
 	if control == true:
 		# Start in air -------------------------------------------------------------------
 		if trampoline_touch == true:
+			
 			if trampoline_type == 0:
 				shots = max_shots
 			elif trampoline_type == 1:
@@ -92,11 +94,14 @@ func _physics_process(delta):
 				pass
 			not_started_jump = false
 			ground_jump = false
-			has_double_jump = true
+			has_double_jump = false
 			state_machine.travel("jump") 
 			spin_type = SpinTypes.POINT
-						
+			
+
+			
 		elif not is_on_floor():
+			
 			# If still have base jump, determine the coyotee factor
 			if not_started_jump and ground_jump:
 				coyotee_time += delta
@@ -116,8 +121,10 @@ func _physics_process(delta):
 				match spin_type:
 					SpinTypes.POINT:
 						rotate((get_local_mouse_position()).angle())
+						
 						if not facingRight:
 							rotate(-PI)
+
 					SpinTypes.WILD_SPIN:
 						if facingRight:
 							rotate(JUMPWILD_SPIN_SPEED * delta)
@@ -128,6 +135,8 @@ func _physics_process(delta):
 			#if direction != 0 and direction != velocity.sign().x:
 				#velocity.x -= velocity.sign().x * SPEED * 0.5 * delta
 
+
+			
 			# New Air movement - move horizontally in air same as on ground
 			# If moving character
 			if direction:
@@ -141,21 +150,24 @@ func _physics_process(delta):
 				else:
 					velocity.x += direction * TURNINGSPEED * delta
 
+
 		# End in air -------------------------------------------------------------------------
-		
+
 		# Start on floor -----------------------------------------------------------------------
-		
+
 		# Start on floor -----------------------------------------------------------------------
 		else:
+			
 			if shots < 1:
 				emit_signal("bullet_update", 1-shots)
+			
 			# Initiate from landing
 			not_started_jump = true
 			if not Input.is_action_pressed("jump"):
 				ground_jump = true
 				has_double_jump = true
-			if velocity.y == 0:
-				shots = max_shots # avoid bounce reloads
+			shots = max_shots
+			
 			# Standup - spin the shortest rotation, cutoff at 0.1 rads
 			if rotation !=0:
 				if rotation > 0:
@@ -164,6 +176,8 @@ func _physics_process(delta):
 					rotate(STANDUP_SPEED * delta)
 				if abs(rotation) < 0.1:
 						rotation = 0
+			
+			
 			# Turning behavior
 			# Turn around - turn right if not facing right, you press right, 
 			# not pressing left			
@@ -172,6 +186,7 @@ func _physics_process(delta):
 				facingRight = true
 				sprite.flip_h = false
 				sprite.position.x = 4.0
+
 			# Turn around - turn left if not facing left, you press left, 
 			# not pressing right (and didnt turn right)			
 			elif (facingRight and Input.is_action_pressed("move_left") 
@@ -179,21 +194,26 @@ func _physics_process(delta):
 				facingRight = false
 				sprite.flip_h = true
 				sprite.position.x = -4.0
+
+
 			# If moving character
 			if direction:
+				
 				state_machine.travel("walk")
+				
 				# If moving in direction of existing movement
 				if direction == velocity.sign().x:
+					if abs(velocity.x) > TOPSPEED * 0.4:
+							$RunParticles.emitting = true
 					if abs(velocity.x) < TOPSPEED:
 						velocity.x += direction * SPEED * delta
-						if abs(velocity.x) > TOPSPEED * 0.4:
-							#print(velocity)
-							$RunParticles.emitting = true
 					else:
+						
 						velocity.x = TOPSPEED * velocity.sign().x
 				# When turning around/moving against existing movement
 				else:
 					velocity.x += direction * TURNINGSPEED * delta
+
 			# If not moving character
 			else:
 				if abs(velocity.x) > 0:
@@ -201,84 +221,206 @@ func _physics_process(delta):
 				else:
 					state_machine.travel("idle")
 		# End on floor ----------------------------------------------------------------------
+			
+			
 
 		# Handle jump.
 		if Input.is_action_pressed("jump"):
+			
+			
 			# Ground Jump behavior
 			if ground_jump:
 				spin_type = SpinTypes.NO_SPIN
 				velocity.y = JUMP_VELOCITY
 				not_started_jump = false
-				up_jump_time += 0.01
-				if Input.is_action_just_pressed("jump"):
-					$PlayerJumpSound.play()
-				
-			elif has_double_jump && Input.is_action_just_pressed("jump") && acquired_double_jump:
+				ground_jump = false
+				has_double_jump = true
 				state_machine.travel("jump") 
 				spin_type = SpinTypes.POINT
-				velocity.y = DJUMP_VELOCITY
-				not_started_jump = false
-				has_double_jump = false
-				velocity.x += DJ_BOOST * direction
-				$PlayerDoubleJumpSound.play()
-		  
-		if up_jump_time > 0:
-			up_jump_time += delta
-			if up_jump_time > MAX_JUMP_TIME:
-				up_jump_time = 0
-				ground_jump = false
-			elif not Input.is_action_pressed("jump"):
-				ground_jump = false
-				up_jump_time = 0
-				
-		if Input.is_action_just_pressed("Click"):
-			if shots > 0 and not has_double_jump:
-				state_machine.travel("shoot")
-				if facingRight:
-					velocity = (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)/delta
-					shoot(1)
-				else:
-					velocity = (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)/delta
-					shoot(-1)
-				shots -= 1
-			elif shots > 0 and not ground_jump and has_double_jump and timer.is_stopped(): # jumped once
-				state_machine.travel("shoot_ground")
-				rotation = 0
-				if facingRight:
-					velocity = (Vector2(-GROUND_SHOT_VELOCITY, 0))
-					shoot(1)
-				else:
-					velocity = (Vector2(GROUND_SHOT_VELOCITY, 0))
-					shoot(-1)
-				shots -= 1
-				timer.start() # timer here to stop spam jumping on walls
-			elif timer.is_stopped() and has_double_jump and ground_jump:
-				state_machine.travel("shoot_ground")
-				rotation = 0
-				if facingRight:
-					velocity = (Vector2(-GROUND_SHOT_VELOCITY, 0))
-					shoot(1)
-				else:
-					velocity = (Vector2(GROUND_SHOT_VELOCITY, 0))
-					shoot(-1)
-				timer.start()
-			#print(timer.time_left)
-			
-		# Continues to shoot for a distance to propel the player a certain amount
-		#if timer.is_stopped() == false:
-			#if facingRight:
-			#	velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation) / delta
-			#else:
-			#	velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation) / delta
+							
+			elif not is_on_floor():
+				# If still have base jump, determine the coyotee factor
+				if not_started_jump and ground_jump:
+					coyotee_time += delta
+					if coyotee_time > COYOTEE_ALLOWANCE:
+						coyotee_time = 0
+						ground_jump = false
 
-		#if velocity.length() > TRUE_MAX_SPEED and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right")):
-		#	velocity = velocity.normalized() * TRUE_MAX_SPEED
-		# Stop movement if slow enough	
-		if abs(velocity.x) < MINSPEED:
-			velocity.x = 0
-		if abs(velocity.y) < MINSPEED:
-			velocity.y = 0
-		move_and_slide()
+				# Determine gravity
+				if velocity.y < MAX_FALL:
+					velocity.y += gravity * delta
+					
+					if velocity.y > MAX_FALL:
+						velocity.y = MAX_FALL
+				
+				#Pointing type while in air 		
+				if not not_started_jump:
+					match spin_type:
+						SpinTypes.POINT:
+							rotate((get_local_mouse_position()).angle())
+							if not facingRight:
+								rotate(-PI)
+						SpinTypes.WILD_SPIN:
+							if facingRight:
+								rotate(JUMPWILD_SPIN_SPEED * delta)
+							else:
+								rotate(-JUMPWILD_SPIN_SPEED * delta)
+								
+				# Old Air movement, disallow gaining momentum horizontally in air				
+				#if direction != 0 and direction != velocity.sign().x:
+					#velocity.x -= velocity.sign().x * SPEED * 0.5 * delta
+
+				# New Air movement - move horizontally in air same as on ground
+				# If moving character
+				if direction:
+					# If moving in direction of existing movement
+					if direction == velocity.sign().x:
+						if abs(velocity.x) < TOPSPEED:
+							velocity.x += direction * SPEED * delta
+						elif abs(velocity.x) < TOPSPEED:
+							velocity.x = TOPSPEED * velocity.sign().x
+					# When turning around/moving against existing movement
+					else:
+						velocity.x += direction * TURNINGSPEED * delta
+
+			# End in air -------------------------------------------------------------------------
+			
+			# Start on floor -----------------------------------------------------------------------
+			
+			# Start on floor -----------------------------------------------------------------------
+			else:
+				if shots < 1:
+					emit_signal("bullet_update", 1-shots)
+				# Initiate from landing
+				not_started_jump = true
+				if not Input.is_action_pressed("jump"):
+					ground_jump = true
+					has_double_jump = true
+				if velocity.y == 0:
+					shots = max_shots # avoid bounce reloads
+				# Standup - spin the shortest rotation, cutoff at 0.1 rads
+				if rotation !=0:
+					if rotation > 0:
+						rotate(-STANDUP_SPEED * delta)
+					elif rotation < 0:
+						rotate(STANDUP_SPEED * delta)
+					if abs(rotation) < 0.1:
+							rotation = 0
+				# Turning behavior
+				# Turn around - turn right if not facing right, you press right, 
+				# not pressing left			
+				if (not facingRight and Input.is_action_pressed("move_right") 
+					and not Input.is_action_pressed("move_left")):
+					facingRight = true
+					sprite.flip_h = false
+					sprite.position.x = 4.0
+				# Turn around - turn left if not facing left, you press left, 
+				# not pressing right (and didnt turn right)			
+				elif (facingRight and Input.is_action_pressed("move_left") 
+					and not Input.is_action_pressed("move_right")):
+					facingRight = false
+					sprite.flip_h = true
+					sprite.position.x = -4.0
+				# If moving character
+				if direction:
+					state_machine.travel("walk")
+					# If moving in direction of existing movement
+					if direction == velocity.sign().x:
+						if abs(velocity.x) < TOPSPEED:
+							velocity.x += direction * SPEED * delta
+							if abs(velocity.x) > TOPSPEED * 0.4:
+								#print(velocity)
+								$RunParticles.emitting = true
+						else:
+							velocity.x = TOPSPEED * velocity.sign().x
+					# When turning around/moving against existing movement
+					else:
+						velocity.x += direction * TURNINGSPEED * delta
+				# If not moving character
+				else:
+					if abs(velocity.x) > 0:
+						velocity.x -= velocity.sign().x * SLOWINGSPEED * delta
+					else:
+						state_machine.travel("idle")
+			# End on floor ----------------------------------------------------------------------
+
+			# Handle jump.
+			if Input.is_action_pressed("jump"):
+				# Ground Jump behavior
+				if ground_jump:
+					spin_type = SpinTypes.NO_SPIN
+					velocity.y = JUMP_VELOCITY
+					not_started_jump = false
+					up_jump_time += 0.01
+					if Input.is_action_just_pressed("jump"):
+						$PlayerJumpSound.play()
+					
+				elif has_double_jump && Input.is_action_just_pressed("jump") && acquired_double_jump:
+					state_machine.travel("jump") 
+					spin_type = SpinTypes.POINT
+					velocity.y = DJUMP_VELOCITY
+					not_started_jump = false
+					has_double_jump = false
+					velocity.x += DJ_BOOST * direction
+					$PlayerDoubleJumpSound.play()
+			
+			if up_jump_time > 0:
+				up_jump_time += delta
+				if up_jump_time > MAX_JUMP_TIME:
+					up_jump_time = 0
+					ground_jump = false
+				elif not Input.is_action_pressed("jump"):
+					ground_jump = false
+					up_jump_time = 0
+					
+			if Input.is_action_just_pressed("Click"):
+				if shots > 0 and not has_double_jump:
+					state_machine.travel("shoot")
+					if facingRight:
+						velocity = (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation)/delta
+						shoot(1)
+					else:
+						velocity = (Vector2(SHOT_VELOCITY, 0)).rotated(rotation)/delta
+						shoot(-1)
+					shots -= 1
+				elif shots > 0 and not ground_jump and has_double_jump and timer.is_stopped(): # jumped once
+					state_machine.travel("shoot_ground")
+					rotation = 0
+					if facingRight:
+						velocity = (Vector2(-GROUND_SHOT_VELOCITY, 0))
+						shoot(1)
+					else:
+						velocity = (Vector2(GROUND_SHOT_VELOCITY, 0))
+						shoot(-1)
+					shots -= 1
+					timer.start() # timer here to stop spam jumping on walls
+				elif timer.is_stopped() and has_double_jump and ground_jump:
+					state_machine.travel("shoot_ground")
+					rotation = 0
+					if facingRight:
+						velocity = (Vector2(-GROUND_SHOT_VELOCITY, 0))
+						shoot(1)
+					else:
+						velocity = (Vector2(GROUND_SHOT_VELOCITY, 0))
+						shoot(-1)
+					timer.start()
+				#print(timer.time_left)
+				
+			# Continues to shoot for a distance to propel the player a certain amount
+			#if timer.is_stopped() == false:
+				#if facingRight:
+				#	velocity += (Vector2(-SHOT_VELOCITY, 0)).rotated(rotation) / delta
+				#else:
+				#	velocity += (Vector2(SHOT_VELOCITY, 0)).rotated(rotation) / delta
+
+			#if velocity.length() > TRUE_MAX_SPEED and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right")):
+			#	velocity = velocity.normalized() * TRUE_MAX_SPEED
+			# Stop movement if slow enough	
+			if abs(velocity.x) < MINSPEED:
+				velocity.x = 0
+			if abs(velocity.y) < MINSPEED:
+				velocity.y = 0
+			move_and_slide()
 
 func get_floor_color(position: Vector2) -> Color:
 	# Get the floor node (assume it is a Sprite or has a texture)

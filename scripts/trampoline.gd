@@ -3,6 +3,7 @@ extends AnimatableBody2D
 var send_player_up = false
 var initial_height = 0
 var player = null
+var additional_rotation = 0
 
 @export var trampoline_jump_height = -500
 # trampoline type: 0 - replenish ammo, 1 - do not replenish ammo
@@ -14,7 +15,7 @@ const AIR_ASSISTANCE = 10
 const SPEED = -400
 
 func _ready() -> void:
-	trampoline_type = clampi(trampoline_type, 0, 1)
+	trampoline_type = clampi(trampoline_type, 0, 3)
 	match trampoline_type:
 		0:
 			#sprite_2d.texture =  load('res://assets/sprites/platforms.png')
@@ -23,7 +24,11 @@ func _ready() -> void:
 		1:
 			#sprite_2d.texture =  load('res://assets/sprites/platforms.png')
 			#sprite_2d.region_rect = Rect2(16, 32, 32, 9)
+			additional_rotation = deg_to_rad(50)
+		2:
 			pass
+		3:
+			additional_rotation = deg_to_rad(-45)
 			
 func _physics_process(delta):
 	# Old code to send player up
@@ -42,8 +47,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
 		player.trampoline_touch = true
-		player.trampoline_type = trampoline_type
-		player.velocity = Vector2(player.velocity.x, trampoline_jump_height).rotated(rotation)
+		player.trampoline_type = 0
+		player.velocity = Vector2(player.velocity.x, trampoline_jump_height).rotated(rotation+additional_rotation)
+		$AnimatedSprite2D.play("bounce")
+		$BounceSound.play()
 		#initial_height = player.position.y
 		#send_player_up = true
 

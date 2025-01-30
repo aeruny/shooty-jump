@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=3 uid="uid://cw85ava6muyuu"]
+
+[ext_resource type="Texture2D" uid="uid://xiaeoig8bbfh" path="res://assets/sprites/drone_platform_sheet.png" id="1_vfght"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4m6ih"]
+atlas = ExtResource("1_vfght")
+region = Rect2(0, 0, 30, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ounw"]
+atlas = ExtResource("1_vfght")
+region = Rect2(30, 0, 30, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6s1io"]
+atlas = ExtResource("1_vfght")
+region = Rect2(60, 0, 30, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rcbp8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4m6ih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ounw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6s1io")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkda5"]
+size = Vector2(23, 20)
+
+[sub_resource type="Animation" id="Animation_wi66o"]
+resource_name = "Float"
+length = 6.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(143, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o2cud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ogh1"]
+_data = {
+"Float": SubResource("Animation_wi66o"),
+"RESET": SubResource("Animation_o2cud")
+}
+
+[node name="FlyingBox" type="Node2D"]
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+collision_mask = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="AnimatableBody2D"]
+sprite_frames = SubResource("SpriteFrames_rcbp8")
+autoplay = "default"
+frame_progress = 0.842142
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_nkda5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatableBody2D"]
+libraries = {
+"": SubResource("AnimationLibrary_4ogh1")
+}
+autoplay = "Float"
