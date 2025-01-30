@@ -4,15 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://dtcrgkojy7bk" path="res://assets/sprites/gunrealsmall.png" id="2_xoqpb"]
 [ext_resource type="AudioStream" uid="uid://b42iv1tklkx33" path="res://assets/sounds/bullet_ground_hit1.wav" id="3_ioeus"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ab0oy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6u8xk"]
 atlas = ExtResource("2_xoqpb")
-region = Rect2(80, 64, 40, 32)
+region = Rect2(0, 64, 40, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xwmof"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ab0oy")
+"texture": SubResource("AtlasTexture_6u8xk")
 }],
 "loop": true,
 "name": &"default",
@@ -27,7 +27,7 @@ radius = 5.09902
 
 [node name="bullet_beta" type="AnimatableBody2D"]
 collision_layer = 8
-collision_mask = 3
+collision_mask = 131
 sync_to_physics = false
 script = ExtResource("1_okhjp")
 
@@ -46,6 +46,7 @@ autostart = true
 
 [node name="bullet_beta_kill_zone" type="AnimatableBody2D" parent="."]
 collision_layer = 8
+collision_mask = 129
 sync_to_physics = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bullet_beta_kill_zone"]

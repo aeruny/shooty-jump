@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2myatyhryj37"
-path="res://.godot/imported/desk_guy1-Sheet.png-c6d30f82f8038838d2755986bb21d5f3.ctex"
+uid="uid://ronms3wgryl8"
+path="res://.godot/imported/machine.png-3493859b71ec49dbcc6219e96f05dbc8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/desk_guy1-Sheet.png"
-dest_files=["res://.godot/imported/desk_guy1-Sheet.png-c6d30f82f8038838d2755986bb21d5f3.ctex"]
+source_file="res://assets/sprites/machine.png"
+dest_files=["res://.godot/imported/machine.png-3493859b71ec49dbcc6219e96f05dbc8.ctex"]
 
 [params]
 

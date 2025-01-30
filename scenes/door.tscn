@@ -1,6 +1,34 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu3w6qqkp6u0w"]
+[gd_scene load_steps=11 format=3 uid="uid://bu3w6qqkp6u0w"]
 
-[ext_resource type="Texture2D" uid="uid://ffr62cnajct5" path="res://assets/sprites/door.png" id="1_fy1su"]
+[ext_resource type="Script" path="res://scripts/door.gd" id="1_knsum"]
+[ext_resource type="Texture2D" uid="uid://cktgia3yf7j51" path="res://assets/sprites/door_sprites.png" id="2_5iua5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a76xf"]
+atlas = ExtResource("2_5iua5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrppy"]
+atlas = ExtResource("2_5iua5")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3gv6n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a76xf")
+}],
+"loop": true,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrppy")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_elr7w"]
 size = Vector2(16, 32)
@@ -19,6 +47,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"close"]
+}
 
 [sub_resource type="Animation" id="Animation_05mf4"]
 resource_name = "close"
@@ -29,10 +69,22 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(-0.0333333, 1),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(0, 32), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"close"]
 }
 
 [sub_resource type="Animation" id="Animation_smv80"]
@@ -49,6 +101,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, 32)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"open"]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0pa1k"]
 _data = {
@@ -58,11 +122,13 @@ _data = {
 }
 
 [node name="door" type="Node2D"]
+script = ExtResource("1_knsum")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-texture = ExtResource("1_fy1su")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
+sprite_frames = SubResource("SpriteFrames_3gv6n")
+animation = &"close"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_elr7w")

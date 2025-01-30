@@ -18,11 +18,28 @@ func _process(delta: float) -> void:
 	
 	match current_scene:
 		1:
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(position.x - CAMERA_WIDTH, position.y)
+				current_scene = 3
 			if player.position.x > position.x + CAMERA_WIDTH/2:
 				position = Vector2(position.x + CAMERA_WIDTH, position.y)
 				current_scene = 2
+		
 		2:
 			if player.position.x < position.x - CAMERA_WIDTH/2:
 				position = Vector2(position.x - CAMERA_WIDTH, position.y)
 				current_scene = 1
+		
+		3:
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(position.x - CAMERA_WIDTH, position.y)
+				current_scene = 4
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(position.x + CAMERA_WIDTH, position.y)
+				current_scene = 1
+		4:
+
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(position.x + CAMERA_WIDTH, position.y)
+				current_scene = 3
 	
