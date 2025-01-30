@@ -1,18 +1,18 @@
 [gd_scene load_steps=10 format=3 uid="uid://bd06afn75x317"]
 
 [ext_resource type="Script" path="res://scripts/receptionist.gd" id="1_5srun"]
-[ext_resource type="Texture2D" uid="uid://ba07t2apeuo8q" path="res://assets/sprites/desk_guy1-Sheet.png" id="2_hpnkg"]
+[ext_resource type="Texture2D" uid="uid://f8x1lxtn1c1w" path="res://assets/sprites/desk_guy1-Sheet.png" id="2_hpnkg"]
 [ext_resource type="FontFile" uid="uid://uxqpkrdkcg0m" path="res://assets/fonts/PixelOperator8.ttf" id="3_qdovx"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qwei6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hwrp"]
 atlas = ExtResource("2_hpnkg")
 region = Rect2(0, 0, 15, 39)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_86f2m"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_eiuxg"]
 atlas = ExtResource("2_hpnkg")
 region = Rect2(0, 0, 15, 39)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u6pwx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbpke"]
 atlas = ExtResource("2_hpnkg")
 region = Rect2(15, 0, 15, 39)
 
@@ -20,7 +20,7 @@ region = Rect2(15, 0, 15, 39)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qwei6")
+"texture": SubResource("AtlasTexture_7hwrp")
 }],
 "loop": true,
 "name": &"default",
@@ -28,10 +28,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_86f2m")
+"texture": SubResource("AtlasTexture_eiuxg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_u6pwx")
+"texture": SubResource("AtlasTexture_gbpke")
 }],
 "loop": true,
 "name": &"talk",
@@ -55,16 +55,17 @@ animation = &"talk"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
+position = Vector2(0, 3)
+scale = Vector2(1, 2.76)
 shape = SubResource("CircleShape2D_5m5ad")
 
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Label" type="Label" parent="."]
 offset_left = 2.0
-offset_top = -28.0
+offset_top = 1.0
 offset_right = 52.0
-offset_bottom = -9.0
+offset_bottom = 20.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_qdovx")
