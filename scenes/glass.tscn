@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://7cnnuswtp3le"]
+
+[ext_resource type="Texture2D" uid="uid://be28v7pq5lkbm" path="res://assets/sprites/Glass-Break-Sheet.png" id="1_37md1"]
+[ext_resource type="Script" path="res://scenes/glass.gd" id="1_wg5x5"]
+[ext_resource type="AudioStream" uid="uid://p4nay5jfbjtu" path="res://assets/sounds/glass-break.wav" id="3_bqna6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fimyg"]
+size = Vector2(16, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5h8r"]
+atlas = ExtResource("1_37md1")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvmnx"]
+atlas = ExtResource("1_37md1")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrarx"]
+atlas = ExtResource("1_37md1")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu3su"]
+atlas = ExtResource("1_37md1")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svw5h"]
+atlas = ExtResource("1_37md1")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prgv4"]
+atlas = ExtResource("1_37md1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wm5al"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5h8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvmnx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrarx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu3su")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svw5h")
+}],
+"loop": false,
+"name": &"break",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prgv4")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="Glass" type="Area2D"]
+collision_mask = 3
+script = ExtResource("1_wg5x5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-56, 0)
+shape = SubResource("RectangleShape2D_fimyg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wm5al")
+
+[node name="SoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_bqna6")
+volume_db = 7.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

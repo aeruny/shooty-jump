@@ -79,6 +79,8 @@ func _physics_process(delta):
 			shots = max_shots
 		elif trampoline_type == 1:
 			shots = 0
+		elif trampoline_type == 5:
+			pass
 		not_started_jump = false
 		ground_jump = false
 		has_double_jump = false
@@ -190,11 +192,10 @@ func _physics_process(delta):
 			
 			# If moving in direction of existing movement
 			if direction == velocity.sign().x:
+				if abs(velocity.x) > TOPSPEED * 0.4:
+						$RunParticles.emitting = true
 				if abs(velocity.x) < TOPSPEED:
 					velocity.x += direction * SPEED * delta
-					if abs(velocity.x) > TOPSPEED * 0.4:
-						print(velocity)
-						$RunParticles.emitting = true
 				else:
 					
 					velocity.x = TOPSPEED * velocity.sign().x
