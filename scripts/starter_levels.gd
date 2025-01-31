@@ -1,5 +1,6 @@
 extends Node2D
 
+var faded = false
 var upgrade_complete = false
 @onready var player = preload("res://scenes/player.tscn")
 var checkpoint: Vector2 
@@ -18,6 +19,7 @@ func _on_respawn_timer_timeout() -> void:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$"/root/Music".play()
 	$Player.control = false
 	$Cutscenes.play("start_cutscene")
 	checkpoint = Vector2(377, 24) # beginning of game
@@ -61,3 +63,13 @@ func _process(delta: float) -> void:
 	if $Player.position >= Vector2(7568, 0):
 		checkpoint = Vector2(7568, -725)
 		checkpoint_cam = 17
+	if $Player.position.x >= 7900 && $Player.position.y <= -950 && faded == false:
+		$TransitionScreen.transition()
+		faded = true
+		$Player.control = false
+		$EndTimer.start()
+		
+
+
+func _on_timer_timeout() -> void:
+	$Cutscenes.play("end_cutscene")

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctu5y4o52p677"]
+
+[ext_resource type="Script" path="res://scripts/bird.gd" id="1_ap3if"]
+[ext_resource type="Texture2D" uid="uid://bqhj351ev7q14" path="res://assets/sprites/bird.png" id="2_o4io6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_josei"]
+atlas = ExtResource("2_o4io6")
+region = Rect2(0, 0, 62, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2b6ht"]
+atlas = ExtResource("2_o4io6")
+region = Rect2(62, 0, 62, 43)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h07on"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_josei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2b6ht")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="Bird" type="StaticBody2D"]
+script = ExtResource("1_ap3if")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_h07on")

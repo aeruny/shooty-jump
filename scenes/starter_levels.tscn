@@ -1,7 +1,8 @@
-[gd_scene load_steps=56 format=4 uid="uid://lmo0anudjirh"]
+[gd_scene load_steps=62 format=4 uid="uid://lmo0anudjirh"]
 
 [ext_resource type="Script" path="res://scripts/starter_levels.gd" id="1_a6cgm"]
 [ext_resource type="Texture2D" uid="uid://cg3qato8x1xo4" path="res://assets/sprites/world_tileset.png" id="1_j14uk"]
+[ext_resource type="PackedScene" uid="uid://bupqd0urjoxml" path="res://scenes/TransitionScreen.tscn" id="2_5nema"]
 [ext_resource type="PackedScene" uid="uid://bq15bmxlhvp7w" path="res://scenes/player.tscn" id="2_6vqk8"]
 [ext_resource type="Texture2D" uid="uid://urmvdwb86ocm" path="res://assets/sprites/subtle_vent_bg_jumpshoot.png" id="3_3qfoa"]
 [ext_resource type="Script" path="res://scripts/michael_camera1.gd" id="3_l5llc"]
@@ -27,6 +28,10 @@
 [ext_resource type="Texture2D" uid="uid://b7povti8c1552" path="res://assets/sprites/poster.png" id="19_0qnwe"]
 [ext_resource type="PackedScene" uid="uid://cp4vpo0smhawe" path="res://scenes/chris_test.tscn" id="24_k263h"]
 [ext_resource type="PackedScene" uid="uid://brccjvx7arvoe" path="res://scenes/game.tscn" id="25_iu08r"]
+[ext_resource type="Texture2D" uid="uid://c02q4rh5gvnfa" path="res://assets/sprites/end.png" id="29_bjxd1"]
+[ext_resource type="PackedScene" uid="uid://bltn612tgaxg7" path="res://scenes/Wizard.tscn" id="31_mj4fs"]
+[ext_resource type="PackedScene" uid="uid://ctu5y4o52p677" path="res://scenes/bird.tscn" id="32_4g7au"]
+[ext_resource type="Texture2D" uid="uid://l42wylepcnmo" path="res://assets/sprites/cauldron.png" id="32_xjfd6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8acy5"]
 texture = ExtResource("3_wcikb")
@@ -1258,6 +1263,30 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(434, 23)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Player:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_7rnf1"]
 resource_name = "open_door"
@@ -1461,9 +1490,146 @@ tracks/3/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_c5uuw"]
+resource_name = "end_cutscene"
+length = 40.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.7, 2.7, 4.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(7923, -1025), Vector2(7923, -1025), Vector2(8110, -1025)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Player")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.7, 4.7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["walk", 0],
+"method": &"play_anim"
+}, {
+"args": ["idle", 0],
+"method": &"play_anim"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.7),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8174, -1172)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Wizard")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(5.7, 5.76667, 36.2667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["talk"],
+"method": &"play_anim"
+}, {
+"args": [],
+"method": &"start_dialogue"
+}, {
+"args": ["default"],
+"method": &"play_anim"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TransitionScreen")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.7, 37.5333),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"transition2"
+}, {
+"args": [],
+"method": &"transition"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Player:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.7),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Bird")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_anim"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Bird2")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_anim"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Bird3")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_anim"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xbeg7"]
 _data = {
 "RESET": SubResource("Animation_wbj44"),
+"end_cutscene": SubResource("Animation_c5uuw"),
 "open_door": SubResource("Animation_7rnf1"),
 "start_cutscene": SubResource("Animation_33eea"),
 "upgrade_animation": SubResource("Animation_qx34v")
@@ -1471,6 +1637,8 @@ _data = {
 
 [node name="StarterLevels" type="Node2D"]
 script = ExtResource("1_a6cgm")
+
+[node name="TransitionScreen" parent="." instance=ExtResource("2_5nema")]
 
 [node name="Tilemaps" type="Node" parent="."]
 
@@ -1508,7 +1676,6 @@ collision_mask = 134217729
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 3
-position = Vector2(4482, -1192)
 script = ExtResource("3_l5llc")
 
 [node name="ConveyorBelt" parent="." instance=ExtResource("7_jv7pd")]
@@ -1620,5 +1787,31 @@ position = Vector2(4152, -906)
 [node name="level_reflect" parent="." instance=ExtResource("25_iu08r")]
 position = Vector2(7263, -700)
 
+[node name="End" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(8174, -1172)
+texture = ExtResource("29_bjxd1")
+
+[node name="Wizard" parent="." instance=ExtResource("31_mj4fs")]
+position = Vector2(8203, -1050)
+
+[node name="Cauldron" type="Sprite2D" parent="."]
+position = Vector2(8203, -1029)
+texture = ExtResource("32_xjfd6")
+
+[node name="Bird" parent="." instance=ExtResource("32_4g7au")]
+position = Vector2(8375, -1251)
+
+[node name="Bird2" parent="." instance=ExtResource("32_4g7au")]
+position = Vector2(8451, -1249)
+
+[node name="Bird3" parent="." instance=ExtResource("32_4g7au")]
+position = Vector2(8418, -1282)
+scale = Vector2(0.5, 0.5)
+
+[node name="EndTimer" type="Timer" parent="."]
+wait_time = 2.0
+
 [connection signal="animation_finished" from="Cutscenes" to="Player" method="_on_start_cutscene_animation_finished"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="timeout" from="EndTimer" to="." method="_on_timer_timeout"]
