@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8gkvifvrpk5d"]
+[gd_scene load_steps=14 format=3 uid="uid://b8gkvifvrpk5d"]
 
 [ext_resource type="Texture2D" uid="uid://dw8hguar24nil" path="res://assets/sprites/jumpyshoot_lobby_bricks.png" id="1_2tbwy"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_uu0g8"]
 [ext_resource type="Texture2D" uid="uid://cwaj6hx5bc5e6" path="res://assets/sprites/shootjumplogo.png" id="2_gvhi6"]
 [ext_resource type="Texture2D" uid="uid://dwb2niyv2sbev" path="res://assets/sprites/play_button.png" id="2_opagq"]
 [ext_resource type="Texture2D" uid="uid://bo8q2mmaqum7v" path="res://assets/sprites/play_button_press.png" id="3_6d03v"]
@@ -49,6 +50,21 @@ texture = ExtResource("1_2tbwy")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ayrds")
 
+[sub_resource type="Animation" id="Animation_qj2uu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(320, -224)]
+}
+
 [sub_resource type="Animation" id="Animation_27g3d"]
 resource_name = "move_logo"
 loop_mode = 2
@@ -65,21 +81,6 @@ tracks/0/keys = {
 "values": [Vector2(320, -280), Vector2(320, -248)]
 }
 
-[sub_resource type="Animation" id="Animation_qj2uu"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(320, -224)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qjhst"]
 _data = {
 "RESET": SubResource("Animation_qj2uu"),
@@ -87,6 +88,7 @@ _data = {
 }
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_uu0g8")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_00cct")
@@ -125,5 +127,19 @@ libraries = {
 "": SubResource("AnimationLibrary_qjhst")
 }
 autoplay = "move_logo"
+
+[node name="Label" type="Label" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 465.0
+offset_top = -84.0
+offset_right = 508.0
+offset_bottom = -52.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]

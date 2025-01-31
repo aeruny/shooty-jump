@@ -1,26 +1,46 @@
-[gd_scene load_steps=10 format=3 uid="uid://bd06afn75x317"]
+[gd_scene load_steps=13 format=3 uid="uid://bd06afn75x317"]
 
 [ext_resource type="Script" path="res://scripts/receptionist.gd" id="1_5srun"]
 [ext_resource type="Texture2D" uid="uid://bvwtss71prscu" path="res://assets/sprites/desk_guy1-Sheet.png" id="2_qtc4v"]
 [ext_resource type="FontFile" uid="uid://uxqpkrdkcg0m" path="res://assets/fonts/PixelOperator8.ttf" id="3_qdovx"]
+[ext_resource type="AudioStream" uid="uid://ckj15xatgpo11" path="res://assets/sounds/desk_guy_die.wav" id="4_7tkbx"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ssgdf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4p0n"]
 atlas = ExtResource("2_qtc4v")
-region = Rect2(0, 0, 15, 39)
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_k4388"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dey0m"]
 atlas = ExtResource("2_qtc4v")
-region = Rect2(0, 0, 15, 39)
+region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_47ugc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jl8iw"]
 atlas = ExtResource("2_qtc4v")
-region = Rect2(15, 0, 15, 39)
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_so3ux"]
+atlas = ExtResource("2_qtc4v")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3ej8"]
+atlas = ExtResource("2_qtc4v")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xnlrg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ssgdf")
+"texture": SubResource("AtlasTexture_c4p0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dey0m")
+}],
+"loop": false,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jl8iw")
 }],
 "loop": true,
 "name": &"default",
@@ -28,10 +48,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_k4388")
+"texture": SubResource("AtlasTexture_so3ux")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_47ugc")
+"texture": SubResource("AtlasTexture_i3ej8")
 }],
 "loop": true,
 "name": &"talk",
@@ -39,7 +59,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5m5ad"]
-radius = 7.07107
+radius = 8.0735
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqrf0"]
 size = Vector2(48, 28)
@@ -50,12 +70,13 @@ collision_mask = 136
 script = ExtResource("1_5srun")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8, -16)
 sprite_frames = SubResource("SpriteFrames_xnlrg")
+animation = &"talk"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
-scale = Vector2(1, 2.76)
+scale = Vector2(1, 1.76)
 shape = SubResource("CircleShape2D_5m5ad")
 
 [node name="Timer" type="Timer" parent="."]
@@ -79,6 +100,11 @@ collision_mask = 10
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_fqrf0")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_7tkbx")
+volume_db = 1.1
+bus = &"SFX"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

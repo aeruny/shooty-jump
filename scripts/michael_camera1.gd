@@ -17,7 +17,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	match current_scene:
+		
 		1: # lobby
 			camera_position = Vector2(95, -101)
 			if player.position.x > position.x + CAMERA_WIDTH/2:
@@ -122,7 +124,7 @@ func _process(delta: float) -> void:
 			if player.position.x < position.x - CAMERA_WIDTH/2:
 				position = Vector2(4800, -1126)
 				current_scene = 11
-			if player.position.y > -1146 && player.position.x > 5738 :
+			if player.position.y > -1146 && player.position.x > 5738:
 				position = Vector2(5948, -793)
 				current_scene = 14
 		14: # molten metal falls

@@ -1,8 +1,8 @@
 extends Node
 
-
+var targetnumber = 0
 @onready var text_box_scene = preload("res://scenes/text_box.tscn")
-var normal 
+var normal = true
 var dialog_lines: Array[String] = []
 var current_line_index = 0
 var time
@@ -70,3 +70,4 @@ func _process(delta: float) -> void:
 			
 			_show_text_box()
 			$"/root/StarterLevels/Wizard". talk = false
+			

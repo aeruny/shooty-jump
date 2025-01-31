@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://do8n6wgo8sgdj"]
+[gd_scene load_steps=8 format=3 uid="uid://do8n6wgo8sgdj"]
 
 [ext_resource type="Texture2D" uid="uid://d1e2goa65dwka" path="res://assets/sprites/mr_target.png" id="1_4cge0"]
+[ext_resource type="Script" path="res://scripts/target_guy.gd" id="1_s0pwc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bgxyw"]
 atlas = ExtResource("1_4cge0")
@@ -35,6 +36,9 @@ animations = [{
 radius = 5.0
 
 [node name="TargetGuy" type="StaticBody2D"]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("1_s0pwc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xbo58")

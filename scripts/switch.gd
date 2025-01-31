@@ -19,8 +19,10 @@ func _on_body_entered(body: Node2D) -> void:
 	if state == 0:
 		state = 1
 		$AnimatedSprite2D.play("on")
+		$AudioStreamPlayer2D.play()
 		door.get_child(0).get_node("AnimationPlayer").play("open")
 		door.get_child(0).get_node("AnimatedSprite2D").frame = 1
+		door.get_node("AudioStreamPlayer2D").play()
 		timer.start()
 
 func _on_timer_timeout() -> void:

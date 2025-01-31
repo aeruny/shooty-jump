@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://cgurdh7ykdddj"]
+[gd_scene load_steps=15 format=3 uid="uid://cgurdh7ykdddj"]
 
 [ext_resource type="Script" path="res://scenes/reflect.gd" id="1_jvc3l"]
 [ext_resource type="Texture2D" uid="uid://lkiskhsfqtiy" path="res://assets/sprites/shooty_jump_factory_sprites_outline-Sheet.png" id="1_r247e"]
+[ext_resource type="AudioStream" uid="uid://22eijtqb3wld" path="res://assets/sounds/richochet.wav" id="3_jjk77"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w7hc2"]
 atlas = ExtResource("1_r247e")
@@ -96,3 +97,7 @@ animation = &"shine"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_qwa5f")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_jjk77")
+bus = &"SFX"

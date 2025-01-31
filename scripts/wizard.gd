@@ -25,3 +25,6 @@ func play_anim(animation: String):
 
 func _on_timer_timeout() -> void:
 	talk = true
+
+func shut_up():
+	DialogManager.normal = true
