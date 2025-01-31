@@ -15,6 +15,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		blow = false
 		player.trampoline_touch = false
+		$AudioStreamPlayer2D.play()
 		
 func _process(delta: float) -> void:
 	if blow == true:

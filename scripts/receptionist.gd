@@ -30,8 +30,8 @@ func _shot():
 		if DialogManager.is_dialog_active == true:
 			DialogManager.is_dialog_active = false
 			DialogManager.text_box.queue_free()
-			$AnimatedSprite2D.play("default")
 		$"../Cutscenes".play("open_door")
+	$AnimatedSprite2D.play("death")
 	dead = true
 	
 func _warning():
@@ -55,7 +55,7 @@ func _physics_process(delta):
 		done = true
 	if Input.is_action_just_pressed("advance_dialog") && inside == true:
 		$Label.hide()
-	if DialogManager.is_dialog_active == false:
+	if DialogManager.is_dialog_active == false && !dead:
 		$AnimatedSprite2D.play("default")
 
 func _on_timer_timeout() -> void:
@@ -74,3 +74,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		$Label.hide()
 		inside = false
+
+func play_death():
+	if dead:
+		$AudioStreamPlayer2D.play()

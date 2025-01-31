@@ -19,3 +19,9 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func _process(delta: float) -> void:
 	if move == true && object.is_on_floor():
 		object.position += speed
+		
+func play_first():
+	$AudioStreamPlayer2D.play()
+	
+func play_second():
+	$AudioStreamPlayer2D2.play()

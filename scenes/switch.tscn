@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://ct85cc3emevyy"]
+[gd_scene load_steps=11 format=3 uid="uid://ct85cc3emevyy"]
 
 [ext_resource type="Script" path="res://scripts/switch.gd" id="1_ssiec"]
 [ext_resource type="Texture2D" uid="uid://lkiskhsfqtiy" path="res://assets/sprites/shooty_jump_factory_sprites_outline-Sheet.png" id="2_yvmyu"]
+[ext_resource type="AudioStream" uid="uid://tsp8g5yunegy" path="res://assets/sounds/switch.wav" id="3_yxmdi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_prsot"]
 atlas = ExtResource("2_yvmyu")
@@ -66,6 +67,10 @@ shape = SubResource("RectangleShape2D_mji3p")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_yxmdi")
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

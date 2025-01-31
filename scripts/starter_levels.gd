@@ -5,6 +5,7 @@ var upgrade_complete = false
 @onready var player = preload("res://scenes/player.tscn")
 var checkpoint: Vector2 
 var checkpoint_cam
+var next_scene = preload("res://scenes/main_menu.tscn")
 
 func respawn() -> void:
 	$Player.velocity = Vector2(0,0)
@@ -19,11 +20,14 @@ func _on_respawn_timer_timeout() -> void:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$Player.position = Vector2(377, 24)
+	checkpoint_cam = 1
+	$Camera2D.position = Vector2(95, -101)
 	$"/root/Music".play()
 	$Player.control = false
 	$Cutscenes.play("start_cutscene")
 	checkpoint = Vector2(377, 24) # beginning of game
-	checkpoint_cam = 1
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -70,6 +74,9 @@ func _process(delta: float) -> void:
 		$EndTimer.start()
 		
 
-
 func _on_timer_timeout() -> void:
 	$Cutscenes.play("end_cutscene")
+	
+
+func end() -> void:
+	get_tree().change_scene_to_packed(next_scene)

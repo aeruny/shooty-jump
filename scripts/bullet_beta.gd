@@ -1,11 +1,12 @@
 extends AnimatableBody2D
 
-
+@onready var target = preload("res://scenes/target_guy.tscn")
 var shot_angle
 var spawn_position
 var facing_scale
 var speed = 400
 var velocity
+
 @onready var timer: Timer = $Timer
 
 
@@ -20,16 +21,20 @@ func _physics_process(delta: float) -> void:
 	
 	var collision = move_and_collide( velocity * delta )
 	if collision:
-		#print(collision.get_collider())
+		collision.get_collider()
 		if 'reflect' in collision.get_collider().to_string():
 			
 			velocity = velocity.bounce(collision.get_normal())
 			rotation = velocity.angle()
 			collision.get_collider().get_child(0).play("shine")
+			collision.get_collider().get_child(2).play()
 			if velocity.x < 0: #inconsistent
 				$AnimatedSprite2D.set_flip_h(true) #gets sprite to flip
 		elif 'Receptionist' in collision.get_collider().to_string() && !($"/root/StarterLevels/Receptionist".dead):
 			$"../Receptionist"._shot()
+		elif 'TargetGuy2' in collision.get_collider().to_string() || 'TargetGuy3' in collision.get_collider().to_string() || 'TargetGuy' in collision.get_collider().to_string() || 'TargetGuy4' in collision.get_collider().to_string() ||  'TargetGuy5' in collision.get_collider().to_string():
+			collision.get_collider().queue_free()
+			DialogManager.targetnumber += 1
 		else:
 		
 			var wall_sound = AudioStreamPlayer2D.new()
