@@ -25,6 +25,7 @@ func _physics_process(delta: float) -> void:
 			
 			velocity = velocity.bounce(collision.get_normal())
 			rotation = velocity.angle()
+			collision.get_collider().get_child(0).play("shine")
 			if velocity.x < 0: #inconsistent
 				$AnimatedSprite2D.set_flip_h(true) #gets sprite to flip
 		elif 'Receptionist' in collision.get_collider().to_string() && !($"/root/StarterLevels/Receptionist".dead):
