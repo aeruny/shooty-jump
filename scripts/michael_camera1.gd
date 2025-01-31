@@ -79,4 +79,79 @@ func _process(delta: float) -> void:
 			camera_position = Vector2(2880,-982)
 			if player.position.x < position.x - CAMERA_WIDTH/2:
 				position = Vector2(2241, -889)
-				current_scene = 6
+				current_scene = 7
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(3520, -773)
+				current_scene = 9
+		9: # rubber fall
+			camera_position = Vector2(3520, -773)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(2880, -982)
+				current_scene = 8
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(4160, -918)
+				current_scene = 10
+		10: # rubber vents
+			camera_position = Vector2(4160, -918)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(3520, -773)
+				current_scene = 9
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(4800, -1126)
+				current_scene = 11
+		11: # box factory 1
+			camera_position = Vector2(4800, -1126)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(4160, -918)
+				current_scene = 10
+			if player.position.y < -1228 && player.position.x < 4630:
+				position = Vector2(4482, -1193)
+				current_scene = 12
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(5419, -1319)
+				current_scene = 13
+		12: # hidden area box factory 1
+			camera_position = Vector2(4482, -1193)
+			if player.position.y > -1228 && player.position.x > 4400 :
+				position = Vector2(4800, -1126)
+				current_scene = 11
+			if player.position.y > -1228 && player.position.x <= 4400 && player.position.x > 4100:
+				position = Vector2(4160, -918)
+				current_scene = 10
+		13: # box factory 2
+			camera_position = Vector2(5419, -1319)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(4800, -1126)
+				current_scene = 11
+			if player.position.y > -1146 && player.position.x > 5738 :
+				position = Vector2(5948, -793)
+				current_scene = 14
+		14: # molten metal falls
+			camera_position = Vector2(5948, -793)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(5419, -1319)
+				current_scene = 13
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(6586, -793)
+				current_scene = 15
+		15: # molten double wires
+			camera_position = Vector2(6586, -793)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(5948, -793)
+				current_scene = 14
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(7225, -793)
+				current_scene = 16
+		16: # molten reflector
+			camera_position = Vector2(7225, -793)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(6586, -793)
+				current_scene = 15
+			if player.position.x > position.x + CAMERA_WIDTH/2:
+				position = Vector2(7864, -793)
+				current_scene = 17
+		17:
+			camera_position = Vector2(7864, -793)
+			if player.position.x < position.x - CAMERA_WIDTH/2:
+				position = Vector2(7225, -793)
+				current_scene = 16

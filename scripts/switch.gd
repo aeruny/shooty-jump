@@ -3,10 +3,12 @@ extends Area2D
 @export var door: Node2D
 @onready var timer: Timer = $Timer
 var state = 0
+@export var time: float = 3.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AnimatedSprite2D.play("off")
+	$Timer.wait_time = time
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
