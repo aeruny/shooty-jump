@@ -5,5 +5,5 @@
 [node name="Music" type="AudioStreamPlayer2D"]
 position = Vector2(551, -190)
 stream = ExtResource("1_rv767")
-autoplay = true
+max_distance = 10000.0
 bus = &"Music"

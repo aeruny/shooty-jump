@@ -17,7 +17,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	match current_scene:
 		1: # lobby
 			camera_position = Vector2(95, -101)
@@ -40,7 +39,7 @@ func _process(delta: float) -> void:
 			if player.position.y < -690:
 				position = Vector2(720, -795)
 				current_scene = 4
-				
+					
 		4: # up the pipes 2
 			camera_position = Vector2(720, -795)
 			if player.position.y > position.y + CAMERA_HEIGHT/2:
@@ -49,7 +48,7 @@ func _process(delta: float) -> void:
 			if player.position.x > position.x + CAMERA_WIDTH/2:
 				position = Vector2(1345, -795)
 				current_scene = 5
-		
+			
 		5: # along the pipes
 			camera_position = Vector2(1345, -795)
 			if player.position.x < position.x - CAMERA_WIDTH/2:
@@ -58,7 +57,7 @@ func _process(delta: float) -> void:
 			if player.position.x > 1435:
 				position = Vector2(1613, -795)
 				current_scene = 6
-				
+					
 		6: # jump into vent
 			camera_position = Vector2(1613, -795)
 			if player.position.x < position.x - CAMERA_WIDTH/2:
