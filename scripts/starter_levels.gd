@@ -25,6 +25,7 @@ func _ready() -> void:
 	$Camera2D.position = Vector2(95, -101)
 	$"/root/Music".play()
 	$Player.control = false
+	$Camera2D.stop = false
 	$Cutscenes.play("start_cutscene")
 	checkpoint = Vector2(377, 24) # beginning of game
 	
@@ -40,42 +41,53 @@ func _process(delta: float) -> void:
 		$ConveyorBelt.speed = Vector2(0.75,0)
 		checkpoint = Vector2(467, -153) # got the upgrade
 		checkpoint_cam = 2
+		print("2")
 	if $Player.position >= Vector2(1070, 0) && $Player.position < Vector2(1933, 0): # top of pipes
 		checkpoint = Vector2(1070, -823)
 		checkpoint_cam = 5
+		print("5")
 	if $Player.position >= Vector2(1933, 0) && $Player.position < Vector2(2566, 0): # entered the vents
 		checkpoint = Vector2(1933, -729)
 		checkpoint_cam = 7
+		print("7")
 	if $Player.position >= Vector2(2566, 0) && $Player.position < Vector2(4490, 0): # end of vents
 		checkpoint = Vector2(2568, -1000)
 		checkpoint_cam = 8
+		print("8")
 	if $Player.position >= Vector2(4490, 0) && $Player.position < Vector2(5130, 0): # box factory
 		checkpoint = Vector2(4493, -1021)
 		checkpoint_cam = 11
+		print("11")
 	if $Player.position >= Vector2(5130, 0) && $Player.position < Vector2(5722, 0): # box factory 2
 		checkpoint = Vector2(5132, -1181)
 		checkpoint_cam = 13
+		print("13")
 	if $Player.position >= Vector2(5722, 0) && $Player.position < Vector2(6260, 0): # molten metal falls 1
 		checkpoint = Vector2(5768, -709)
 		checkpoint_cam = 14
+		print("14")
 	if $Player.position >= Vector2(6260, 0) && $Player.position < Vector2(6900, 0): # molten metal falls 2
 		checkpoint = Vector2(6267, -837)
 		checkpoint_cam = 15
+		print("15")
 	if $Player.position >= Vector2(6900, 0) && $Player.position < Vector2(7568, 0): # molten metal falls 3
 		checkpoint = Vector2(6945, -821)
 		checkpoint_cam = 16
-	if $Player.position >= Vector2(7568, 0):
+		print("16")
+	if $Player.position >= Vector2(7568, 0) && $Player.position.y > 900:
 		checkpoint = Vector2(7568, -725)
 		checkpoint_cam = 17
+		print("fuck you")
 	if $Player.position.x >= 7900 && $Player.position.y <= -950 && faded == false:
-		$TransitionScreen.transition()
 		faded = true
+		$TransitionScreen.transition()
 		$Player.control = false
-		$EndTimer.start()
-		
+		#$EndTimer.start()
+		print("hello")
+		$Cutscenes.play("end_cutscene")
 
-func _on_timer_timeout() -> void:
-	$Cutscenes.play("end_cutscene")
+#func _on_timer_timeout() -> void:
+	#$Cutscenes.play("end_cutscene")
 	
 
 func end() -> void:
